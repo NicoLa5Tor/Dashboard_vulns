@@ -11,7 +11,7 @@ class Nist:
         try:
             response = requests.get(url)    
             data = response.json()
-            #print(json.dumps(data['totalResults'],indent=2))
+            print(json.dumps(data['totalResults'],indent=2))
             dat = self.obj.addItem(
                 container="Vulns",
                 db='Nist',
