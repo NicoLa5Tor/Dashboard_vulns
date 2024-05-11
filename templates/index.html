@@ -14,7 +14,185 @@
         rel="stylesheet">
     <link href="../Static/vendor/css/my.css" rel="stylesheet">
     <!-- Custom styles for this template-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.0.2"></script>
     <link href="/Static/vendor/css/sb-admin-2.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.0.2/chartjs-plugin-annotation.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.0.2"></script>
+    <style>
+        /* Estilos adicionales */
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            border-radius: 15px;
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        /* Estilos adicionales para la tabla */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+            color: #212529;
+            background-color: transparent;
+        }
+
+        th,
+        td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+            white-space: normal;
+            /* Permite que el texto se ajuste automáticamente */
+        }
+
+        th {
+            background-color: #f8f9fa;
+            border-color: #dee2e6;
+        }
+
+        tbody th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+
+        tbody tr:nth-of-type(even) {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.075);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            /* Tres columnas de igual tamaño */
+            grid-gap: 20px;
+            /* Espacio entre tarjetas */
+            padding: 20px;
+            /* Espacio alrededor de la grilla */
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #007bff;
+            /* Azul */
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            text-align: center;
+            /* Centra el título */
+        }
+
+        #result {
+            max-height: 300px;
+            /* Establece una altura máxima para el área de resultados */
+            overflow-y: auto;
+            /* Permite desplazamiento vertical si el contenido es demasiado grande */
+            margin-top: 20px;
+            /* Espacio por encima del resultado para una mejor visualización */
+        }
+
+        canvas {
+            width: 100% !important;
+            max-height: 500px;
+            /* Controla la altura del gráfico */
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 20px;
+            /* Centra los elementos hijos horizontalmente */
+        }
+
+        #vulnerabilityPieChart {
+            width: 70% !important;
+            max-width: 500px;
+            height: auto !important;
+            /* Mantiene la proporción */
+        }
+
+        .counter-container {
+            background-color: #f8f9fa;
+            /* Color de fondo suave */
+            border: 1px solid #dee2e6;
+            /* Borde sutil */
+            border-radius: 10px;
+            /* Bordes redondeados */
+            padding: 20px;
+            /* Espaciado interno */
+            margin-top: 20px;
+            /* Espaciado superior */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Sombra suave para profundidad */
+        }
+
+        .counter {
+            font-size: 3rem;
+            /* Tamaño de fuente grande */
+            color: #0d6efd;
+            /* Color de Bootstrap 'primary' */
+            font-weight: bold;
+            /* Negrita para mayor impacto */
+        }
+
+        .container {
+            max-width: 600px;
+            /* Ajusta esto según el ancho deseado del contenedor */
+        }
+
+        .counter-container,
+        .machine-container {
+            background-color: #f8f9fa;
+            /* Color de fondo suave */
+            border: 1px solid #dee2e6;
+            /* Borde sutil */
+            border-radius: 10px;
+            /* Bordes redondeados */
+            padding: 30px;
+            /* Espaciado interno aumentado */
+            margin-top: 20px;
+            /* Espaciado superior */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Sombra suave para profundidad */
+            width: 100%;
+            /* Asegura que ocupe todo el ancho disponible */
+        }
+
+        .counter,
+        .machine-name {
+            font-size: 4rem;
+            /* Tamaño de fuente aumentado */
+            color: #0d6efd;
+            /* Color de Bootstrap 'primary' */
+            font-weight: bold;
+            /* Negrita para mayor impacto */
+        }
+    </style>
+</head>
 
 </head>
 
@@ -23,97 +201,19 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">CVE detect<sup>702</sup></div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Interface
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#"  
-                    aria-expanded="false" >
-                    <span>Components</span>
-                </a>
-                
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link " href="#"
-                    aria-expanded="false" >
-                    
-                    <span>Utilities</span>
-                </a>
-            
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Addons
-            </div>
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" 
-                    aria-expanded="false" >
-                    <span>Pages</span>
-                </a>
-            </li>
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-        </ul>
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
             <div id="content">
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    <div
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 w-100">
-                        <h4>Vulnerability Sentinel: Unleashing the CVE Detector</h4>
+                    <div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 w-100"
+                        style="text-align: center;">
+                        <h4 class="h5 mb-0 font-weight-bold text-gray-800 ml-5"
+                            style="text-transform: uppercase; margin-left: calc(5rem + 60px);">DASHBOARD DE
+                            VULNERABILIDADES</h4>
                     </div>
-
-                
-
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <div class="topbar-divider d-none d-sm-block"></div>
@@ -122,8 +222,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">UCundinamarca</span>
-                                <img class="img-profile rounded-circle h-75 w-50"
-                                    src="/Static/Assests/uc.png">
+                                <img class="img-profile rounded-circle h-75 w-50" src="/Static/Assests/uc.png">
                             </a>
                         </li>
                     </ul>
@@ -138,14 +237,16 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs text-info text-uppercase mb-1">
-                                            Vulnerabilities in the word</div>
+                                            VULNERABILIDADES EN EL MUNDO</div>
 
                                         <div class="row no-gutters align-items-center text-center">
-                                            <div class="col-auto text-center">
-                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 text-center w-100">In the world, there are approximately ... vulnerabilities</div>
+                                            <div class="col text-center">
+                                                <h4 class="h5 mb-0 font-weight-bold text-gray-800"
+                                                    style="text-transform: uppercase;">Nicolás Torres Rodriguez y Juan
+                                                    David Moreno</h4>
                                             </div>
-
                                         </div>
+
                                     </div>
 
                                     <div class="col-auto">
@@ -158,10 +259,8 @@
                 </div>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    
                     <!-- Content Row -->
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-2 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
@@ -232,7 +331,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Medium</div>
-                    
+
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
                                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
@@ -246,7 +345,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                       
+
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                                         </div>
@@ -319,297 +418,387 @@
 
                     <!-- Content Row -->
 
-                    <div class="row">
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-7">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                    <div class="container-fluid">
+                        <div class="dashboard-grid">
+                            <!-- Métricas 1-9 -->
+                            <!-- Celda 1 -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="text-center"><i class="fas fa-chart-bar"></i> Categorización de
+                                        Computadores</h2>
+                                    <canvas id="myChart" style="max-height: 400px;"></canvas>
                                 </div>
-
-
-                                <div class="container py-5">
-                                    <div class="row justify-content-center">
-                                        <div class="col-md-10">
-                                            <h2 class="text-center mb-4" style="color: #007bff;">Categorización de
-                                                Computadores</h2>
-                                            <div class="card shadow-lg">
-                                                <div class="card-body">
-                                                    <canvas id="myChart"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <script>
-                                    $(document).ready(function () {
-                                        $.getJSON('/data', function (data) {
-                                            var ctx = document.getElementById('myChart').getContext('2d');
-                                            var myChart = new Chart(ctx, {
-                                                type: 'bar',
-                                                data: data,
-                                                options: {
-                                                    scales: {
-                                                        y: {
-                                                            beginAtZero: true
-                                                        }
-                                                    },
-                                                    plugins: {
-                                                        legend: {
-                                                            position: 'top',
-                                                            labels: {
-                                                                padding: 20,
-                                                                font: {
-                                                                    size: 14
-                                                                }
+                            </div>
+                            <script>
+                                $(document).ready(function () {
+                                    $.getJSON('/data', function (data) {
+                                        var ctx = document.getElementById('myChart').getContext('2d');
+                                        var myChart = new Chart(ctx, {
+                                            type: 'bar',
+                                            data: data,
+                                            options: {
+                                                scales: {
+                                                    y: {
+                                                        beginAtZero: true
+                                                    }
+                                                },
+                                                plugins: {
+                                                    legend: {
+                                                        position: 'top',
+                                                        labels: {
+                                                            padding: 20,
+                                                            font: {
+                                                                size: 14
                                                             }
                                                         }
-                                                    },
-                                                    responsive: true,
-                                                    maintainAspectRatio: false
-                                                }
-                                            });
+                                                    }
+                                                },
+                                                responsive: true,
+                                                maintainAspectRatio: false
+                                            }
                                         });
                                     });
-                                </script>
-                                <div class="container py-5">
-                                    <div class="row justify-content-center">
-                                        <div class="col-md-10">
-                                            <h2 class="text-center mb-4" style="color: #007bff;">Gráfico de Líneas de
-                                                Vulnerabilidades</h2>
-                                            <div class="card shadow-lg"
-                                                style="border-radius: 20px; overflow: hidden; position: relative;">
-                                                <canvas id="line-chart"
-                                                    style="position: relative; z-index: 1;"></canvas>
-                                                <div
-                                                    style="position: absolute; top: 0; right: 0; z-index: 10; background: rgba(255, 255, 255, 0.8); border-bottom-left-radius: 10px; padding: 5px;">
-                                                    <select id="selectMonth" class="form-control"
-                                                        style="border-radius: 5px; box-shadow: none; border: 1px solid #ced4da;">
-                                                        <!-- Opciones de los meses se llenarán dinámicamente -->
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                });
+                            </script>
+
+                            <!-- Celdas 2-9 -->
+                            <!-- Repetir este bloque para cada métrica ajustando el título y contenido según sea necesario -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="text-center"><i class="fas fa-chart-bar"></i> Población de municipios
+                                    </h2>
+                                    <canvas id="poblacionChart" style="max-height: 400px;"></canvas>
                                 </div>
-
-
-                                <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-                                <script
-                                    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-                                <script
-                                    src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.0.2/chartjs-plugin-annotation.min.js"></script>
-                                <script>
-                                    $(document).ready(function () {
-                                        $.getJSON('/data2', function (data) {
-                                            var labels = data.map(function (item) {
-                                                return item.mes;
-                                            });
-
-                                            var values = data.map(function (item) {
-                                                return item.valor;
-                                            });
-
-                                            var ctx = document.getElementById('line-chart').getContext('2d');
-                                            var myChart = new Chart(ctx, {
-                                                type: 'line',
-                                                data: {
-                                                    labels: labels,
-                                                    datasets: [{
-                                                        label: 'Cantidad de Vulnerabilidades',
-                                                        data: values,
-                                                        fill: true,
-                                                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                                        borderColor: 'rgba(255, 99, 132, 1)',
-                                                        borderWidth: 2,
-                                                        tension: 0.4,
-                                                        shadowOffsetX: 3,
-                                                        shadowOffsetY: 3,
-                                                        shadowBlur: 10,
-                                                        shadowColor: 'rgba(54, 162, 235, 0.5)'
-                                                    }]
-                                                },
-                                                options: {
-                                                    scales: {
-                                                        x: {
-                                                            title: {
-                                                                display: true,
-                                                                text: 'Mes'
-                                                            }
-                                                        },
-                                                        y: {
-                                                            title: {
-                                                                display: true,
-                                                                text: 'Cantidad de Vulnerabilidades'
-                                                            },
+                            </div>
+                            <script>
+                                fetch('/data3')
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        var ctx = document.getElementById('poblacionChart').getContext('2d');
+                                        var poblacionChart = new Chart(ctx, {
+                                            type: 'bar',
+                                            data: data,
+                                            options: {
+                                                responsive: true,
+                                                maintainAspectRatio: false,
+                                                scales: {
+                                                    yAxes: [{
+                                                        ticks: {
                                                             beginAtZero: true
                                                         }
-                                                    },
-                                                    interaction: {
-                                                        mode: 'index',
-                                                        intersect: false
-                                                    },
-                                                    hover: {
-                                                        mode: 'nearest',
-                                                        intersect: true
-                                                    },
-                                                    plugins: {
-                                                        tooltip: {
-                                                            usePointStyle: true,
-                                                        },
-                                                        annotation: {
-                                                            annotations: {
-                                                                trend: {
-                                                                    type: 'line',
-                                                                    mode: 'horizontal',
-                                                                    scaleID: 'y',
-                                                                    value: 0,
-                                                                    borderColor: 'rgba(0,0,0,0.5)',
-                                                                    borderWidth: 2,
-                                                                    borderDash: [6, 4],
-                                                                    label: {
-                                                                        content: '',
-                                                                        enabled: true,
-                                                                        position: 'end'
-                                                                    }
-                                                                }
-                                                            }
+                                                    }]
+                                                }
+                                            }
+                                        });
+                                    });
+                            </script>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="text-center"><i class="fas fa-chart-bar"></i> Consulta de CVE</h2>
+                                    <form id="cveForm" class="mt-4">
+                                        <div class="mb-3">
+                                            <label for="cve_id" class="form-label">CVE ID</label>
+                                            <input type="text" class="form-control" id="cve_id" name="cve_id" required>
+                                        </div>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-primary me-2">Consultar</button>
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="clearResults()">Borrar</button>
+                                        </div>
+                                    </form>
+                                    <div id="loading" class="text-center"
+                                        style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px;">
+                                        <i class="fas fa-circle-notch fa-spin" style="color: #007bff;"></i>
+                                        <!-- Cambiado a un ícono diferente para una mejor animación -->
+                                    </div>
+                                    <div id="result" style="display: none;">
+                                        <!-- Los resultados de la consulta se mostrarán aquí -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script>
+                                document.getElementById('cveForm').addEventListener('submit', function (event) {
+                                    event.preventDefault();
+                                    const cveId = document.getElementById('cve_id').value;
+                                    showLoading(true);
+                                    fetch(`/api/cve/${cveId}`)
+                                        .then(response => {
+                                            if (!response.ok) {
+                                                throw new Error('CVE no encontrado');
+                                            }
+                                            return response.json();
+                                        })
+                                        .then(({ data, cvss_score }) => {
+                                            const resultDiv = document.getElementById('result');
+                                            resultDiv.innerHTML = `
+                                        <h2 class="text-center">Resultado de consulta</h2>
+                                        <div class="table-responsive">
+                                            <table class="table mt-4">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">CVE ID</th>
+                                                        <th scope="col">Descripción</th>
+                                                        <th scope="col">Publicado</th>
+                                                        <th scope="col">Última modificación</th>
+                                                        <th scope="col">CVSS Score</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>${data.id}</td>
+                                                        <td>${data.summary}</td>
+                                                        <td>${data.Published}</td>
+                                                        <td>${data.Modified}</td>
+                                                        <td>${cvss_score}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    `;
+                                            showLoading(false);
+                                        })
+                                        .catch(error => {
+                                            console.error('Error:', error);
+                                            document.getElementById('result').innerHTML = '<div class="alert alert-danger" role="alert">' + error.message + '</div>';
+                                            showLoading(false);
+                                        });
+                                });
+
+                                function clearResults() {
+                                    document.getElementById('result').innerHTML = ''; // Limpia el contenido del div de resultados
+                                    document.getElementById('cve_id').value = ''; // Limpia el campo de entrada del CVE ID
+                                    showLoading(false);
+                                }
+
+                                function showLoading(show) {
+                                    document.getElementById('loading').style.display = show ? 'block' : 'none';
+                                    document.getElementById('result').style.display = show ? 'none' : 'block';
+                                }
+                            </script>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="text-center"><i class="fas fa-chart-bar"></i> Gráfico de Líneas de
+                                        Vulnerabilidades</h2>
+                                    <canvas id="line-chart" style="max-height: 85%;"></canvas>
+                                </div>
+                            </div>
+                            <script>
+                                $(document).ready(function () {
+                                    $.getJSON('/data2', function (data) {
+                                        var labels = data.map(function (item) {
+                                            return item.mes;
+                                        });
+
+                                        var values = data.map(function (item) {
+                                            return item.valor;
+                                        });
+
+                                        var ctx = document.getElementById('line-chart').getContext('2d');
+                                        var myChart = new Chart(ctx, {
+                                            type: 'line',
+                                            data: {
+                                                labels: labels,
+                                                datasets: [{
+                                                    label: 'Cantidad de Vulnerabilidades',
+                                                    data: values,
+                                                    fill: true,
+                                                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                                    borderWidth: 2,
+                                                    tension: 0.4
+                                                }]
+                                            },
+                                            options: {
+                                                responsive: true,
+                                                maintainAspectRatio: false,
+                                                scales: {
+                                                    y: {
+                                                        beginAtZero: true,
+                                                        title: {
+                                                            display: true,
+                                                            text: 'Cantidad de Vulnerabilidades'
                                                         }
                                                     },
-                                                    animation: {
-                                                        duration: 1500
+                                                    x: {
+                                                        title: {
+                                                            display: true,
+                                                            text: 'Mes'
+                                                        }
+                                                    }
+                                                },
+                                                interaction: {
+                                                    mode: 'index',
+                                                    intersect: false
+                                                },
+                                                hover: {
+                                                    mode: 'nearest',
+                                                    intersect: true
+                                                },
+                                                plugins: {
+                                                    tooltip: {
+                                                        callbacks: {
+                                                            label: function (context) {
+                                                                var label = context.dataset.label || '';
+                                                                if (label) {
+                                                                    label += ': ';
+                                                                }
+                                                                label += context.parsed.y;
+
+                                                                if (context.parsed.y !== null) {
+                                                                    var index = context.dataIndex;
+                                                                    var currentMonth = data[index];
+                                                                    var previousMonth = data[index - 1] || { valor: currentMonth.valor };
+                                                                    var percentageChange = ((currentMonth.valor - previousMonth.valor) / (previousMonth.valor || 1)) * 100;
+                                                                    var comparison = currentMonth.valor > previousMonth.valor ? 'aumento' : 'disminución';
+                                                                    label += ' (' + comparison + ' del ' + Math.abs(percentageChange).toFixed(2) + '% respecto a ' + (previousMonth.mes || 'inicio') + ')';
+                                                                }
+                                                                return label;
+                                                            }
+                                                        }
                                                     }
                                                 }
-                                            });
-
-                                            $('#selectMonth').change(function () {
-                                                var selectedMonth = $(this).val();
-                                                var index = labels.indexOf(selectedMonth);
-                                                var annotation = myChart.options.plugins.annotation.annotations.trend;
-
-                                                if (index !== -1 && index > 0) {
-                                                    var currentValue = values[index];
-                                                    var previousValue = values[index - 1];
-                                                    var trend = currentValue > previousValue ? 'aumento' : 'disminución';
-                                                    var percentage = ((currentValue - previousValue) / previousValue * 100).toFixed(2);
-                                                    var trendInfo = 'En ' + selectedMonth + ', hubo un ' + trend + ' del ' + Math.abs(percentage) + '% respecto a ' + labels[index - 1] + '.';
-
-                                                    annotation.value = currentValue;
-                                                    annotation.borderColor = currentValue > previousValue ? 'rgba(0, 255, 0, 0.5)' : 'rgba(255, 0, 0, 0.5)';
-                                                    annotation.label.content = trendInfo;
-                                                    annotation.label.enabled = true;
-                                                } else {
-                                                    // Si la selección no es válida, deshabilita la anotación
-                                                    annotation.label.enabled = false;
-                                                }
-
-                                                // Actualiza el gráfico para reflejar los cambios
-                                                myChart.update();
-                                            });
-
-
-
-                                            labels.forEach(function (month) {
-                                                $('#selectMonth').append($('<option>', {
-                                                    value: month,
-                                                    text: month
-                                                }));
-                                            });
+                                            }
                                         });
+
+                                        // Ajustar el tamaño del canvas al contenedor
+                                        function resizeCanvas() {
+                                            var canvas = document.getElementById('line-chart');
+                                            canvas.style.width = '100%';
+                                            canvas.style.height = canvas.parentElement.offsetHeight + 'px';
+                                        }
+
+                                        // Llamar a resizeCanvas() cuando cambie el tamaño de la ventana
+                                        window.addEventListener('resize', resizeCanvas, false);
+
+                                        // Llamar a resizeCanvas() una vez al principio para establecer el tamaño inicial
+                                        resizeCanvas();
+                                    });
+                                });
+                            </script>
+                            <div class="card">
+                                <div class="card shadow">
+                                    <div class="card-body text-center">
+                                        <h2 class="text-center"><i class="fas fa-chart-bar"></i> Total de
+                                            Vulnerabilidades</h2>
+                                        <div class="counter-container">
+                                            <div id="vulnerabilityCount" class="counter">Cargando...</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card shadow mt-4">
+                                    <div class="card-body text-center">
+                                        <h2 class="text-center"><i class="fas fa-chart-bar"></i> Máquina Más Vulnerable
+                                        </h2>
+                                        <div class="machine-container">
+                                            <div id="mostVulnerableMachine" class="machine-name">Cargando...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card shadow mt-4">
+                                    <div class="card-body text-center">
+                                        <h2 class="text-center"><i class="fas fa-chart-bar"></i> Máquina Menos
+                                            Vulnerable</h2>
+                                        <div class="machine-container">
+                                            <div id="leastVulnerableMachine" class="machine-name">Cargando...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    fetch('/data5')
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            document.getElementById('vulnerabilityCount').textContent = data.total_vulnerabilities;
+                                        })
+                                        .catch(error => console.error('Error al cargar los datos de vulnerabilidades:', error));
+
+                                    fetch('/data6')
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            document.getElementById('mostVulnerableMachine').textContent = data.machine_name;
+                                        })
+                                        .catch(error => console.error('Error al cargar los datos de la máquina más vulnerable:', error));
+
+                                    fetch('/data7')
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            document.getElementById('leastVulnerableMachine').textContent = data.machine_name;
+                                        })
+                                        .catch(error => console.error('Error al cargar los datos de la máquina menos vulnerable:', error));
+                                });
+
+                            </script>
+                                <div class="card">
+                                    <div class="card shadow">
+                                        <div class="card-body">
+                                            <h2 class="text-center">Top Vulnerabilidades</h2>
+                                            <canvas id="vulnerabilitiesChart"></canvas>
+                                            <div class="table-responsive" style="height: 340px; overflow-y: scroll;">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Vulnerabilidad</th>
+                                                            <th>Severidad</th>
+                                                            <th>Descripción</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="vulnerabilitiesTable"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        fetch('/top-vulnerabilities')
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                const ctx = document.getElementById('vulnerabilitiesChart').getContext('2d');
+                                                const names = data.map(v => v.name);
+                                                const severities = data.map(v => v.severity);
+                                                const colors = [ // Definiendo un arreglo de colores
+                                                    'rgba(255, 159, 64, 0.2)', // Naranja claro
+                                                    'rgba(54, 162, 235, 0.2)', // Azul claro
+                                                    'rgba(255, 206, 86, 0.2)', // Amarillo claro
+                                                    'rgba(75, 192, 192, 0.2)', // Verde agua
+                                                    'rgba(153, 102, 255, 0.2)', // Violeta
+                                                    'rgba(255, 99, 132, 0.2)', // Rosa
+                                                    'rgba(199, 199, 199, 0.2)', // Gris
+                                                    'rgba(83, 102, 255, 0.2)', // Azul oscuro
+                                                    'rgba(40, 159, 64, 0.2)', // Verde oscuro
+                                                    'rgba(143, 162, 235, 0.2)'  // Azul pastel
+                                                ];
+                                                const borderColors = colors.map(color => color.replace('0.2', '1')); // Ajustando la opacidad para bordes
+                                                const chart = new Chart(ctx, {
+                                                    type: 'doughnut',
+                                                    data: {
+                                                        labels: names,
+                                                        datasets: [{
+                                                            label: 'Severidad',
+                                                            data: severities,
+                                                            backgroundColor: colors,
+                                                            borderColor: borderColors,
+                                                            borderWidth: 1
+                                                        }]
+                                                    }
+                                                });
+                                
+                                                const tableBody = document.getElementById('vulnerabilitiesTable');
+                                                data.forEach(v => {
+                                                    const row = `<tr><td>${v.name}</td><td>${v.severity}</td><td>${v.description}</td></tr>`;
+                                                    tableBody.innerHTML += row;
+                                                });
+                                            })
+                                            .catch(error => console.error('Error al cargar los datos:', error));
                                     });
                                 </script>
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content Row -->
-
-
-                </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"></span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+                                
 
 </body>
 
