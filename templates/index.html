@@ -595,6 +595,142 @@
                 transform: rotate(-1turn);
             }
         }
+
+        .icon-margin {
+            margin-left: 15px;
+            /* Ajusta el valor según tus necesidades */
+        }
+
+        .item1,
+        .item2,
+        .item3 {
+            position: absolute;
+            background-color: transparent;
+            left: calc(50% - (var(--size) / 2));
+            top: calc(50% - (var(--size) / 2));
+            height: var(--size);
+            width: var(--size);
+            border-radius: 50%;
+        }
+
+        .loader .item1 {
+            --size: 90px;
+            animation: size1_1 2.5s infinite alternate;
+            z-index: 1;
+        }
+
+        .loader .item2 {
+            --size: 60px;
+            animation: size1_2 2.5s infinite alternate;
+            z-index: 2;
+        }
+
+        .loader .item3 {
+            --size: 30px;
+            animation: size1_3 2.5s infinite alternate;
+            z-index: 3;
+        }
+
+        @keyframes size1_1 {
+
+            0%,
+            10% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 8px 8px 14px #c5c5c5, -8px -8px 14px #ffffff;
+            }
+        }
+
+        @keyframes size1_2 {
+
+            0%,
+            40% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 8px 8px 14px #c5c5c5, -8px -8px 14px #ffffff;
+            }
+        }
+
+        @keyframes size1_3 {
+
+            0%,
+            70% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 8px 8px 14px #c5c5c5, -8px -8px 14px #ffffff;
+            }
+        }
+
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+        }
+
+        .h-33 {
+            height: 33%;
+        }
+
+        .counter,
+        .machine-name {
+            font-size: calc(1.5rem + 1vw);
+            /* Ajuste proporcional del tamaño de fuente */
+        }
+
+        h2 {
+            font-size: calc(1rem + 1vw);
+            /* Ajuste proporcional del tamaño de fuente */
+        }
+
+        /* Estilos adicionales para asegurar el ajuste proporcional del contenido */
+        .card {
+            max-width: 100%;
+            height: 80vh;
+            margin: auto;
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        h2 {
+            font-size: calc(1rem + 1vw);
+            /* Ajuste proporcional del tamaño de fuente */
+        }
+
+        #vulnerabilitiesChart {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .counter,
+        .machine-name {
+            font-size: calc(1.5rem + 1vw);
+            /* Ajuste proporcional del tamaño de fuente */
+            font-weight: bold;
+            color: #333;
+        }
+
+        h2 {
+            font-size: calc(1rem + 1vw);
+            /* Ajuste proporcional del tamaño de fuente */
+        }
     </style>
 </head>
 
@@ -670,30 +806,41 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Low</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <div class="row no-gutters align-items-center">
-                                                    <div class="col-auto">
-                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">20%
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="progress progress-sm mr-2">
-                                                            <div class="progress-bar bg-info" role="progressbar"
-                                                                style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                                aria-valuemax="100"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                AwaitAnalisis</div>
+                                            <div id="awaitAnalisisValue" class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <!-- Aquí se actualizará el valor -->
+                                            </div>
+                                            <div id="awaitAnalisisPercentage"
+                                                class="text-xs font-weight-bold text-gray-500">
+                                                <!-- Aquí se actualizará el porcentaje -->
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            <i class="fas fa-file-alt fa-2x text-gray-300 icon-margin"></i>
+                                            <!-- Clase personalizada para margen izquierda -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <script>
+                            $(document).ready(function () {
+                                // Hacer una solicitud AJAX a tu API en Flask
+                                $.getJSON('/api/data', function (data) {
+                                    // Obtener los valores de AwaitAnalisis y Total
+                                    var awaitAnalisis = data.response.item.AwaitAnalisis;
+                                    var total = data.response.item.Total;
+
+                                    // Calcular el porcentaje
+                                    var percentage = ((awaitAnalisis / total) * 100).toFixed(2);
+
+                                    // Actualizar el div con el valor y el porcentaje obtenidos
+                                    $('#awaitAnalisisValue').text(awaitAnalisis);
+                                    $('#awaitAnalisisPercentage').text(percentage + '% del total');
+                                });
+                            });
+                        </script>
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-2 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
@@ -701,138 +848,350 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Low</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <div class="row no-gutters align-items-center">
-                                                    <div class="col-auto">
-                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">20%
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="progress progress-sm mr-2">
-                                                            <div class="progress-bar bg-info" role="progressbar"
-                                                                style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                                aria-valuemax="100"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                Critical</div>
+                                            <div id="criticalValue" class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <!-- Aquí se actualizará el valor -->
+                                            </div>
+                                            <div id="criticalPercentage" class="text-xs font-weight-bold text-gray-500">
+                                                <!-- Aquí se actualizará el porcentaje -->
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            <i class="fas fa-exclamation-triangle fa-2x text-gray-300 icon-margin"></i>
+                                            <!-- Clase personalizada para margen izquierda -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <script>
+                            $(document).ready(function () {
+                                // Hacer una solicitud AJAX a tu API en Flask
+                                $.getJSON('/api/data', function (data) {
+                                    // Obtener los valores de AwaitAnalisis, Critical y Total
+                                    var awaitAnalisis = data.response.item.AwaitAnalisis;
+                                    var critical = data.response.item.Critical;
+                                    var total = data.response.item.Total;
+
+                                    // Calcular los porcentajes
+                                    var awaitAnalisisPercentage = ((awaitAnalisis / total) * 100).toFixed(2);
+                                    var criticalPercentage = ((critical / total) * 100).toFixed(2);
+
+                                    // Actualizar los divs con los valores y los porcentajes obtenidos
+                                    $('#awaitAnalisisValue').text(awaitAnalisis);
+                                    $('#awaitAnalisisPercentage').text(awaitAnalisisPercentage + '% del total');
+
+                                    $('#criticalValue').text(critical);
+                                    $('#criticalPercentage').text(criticalPercentage + '% del total');
+                                });
+                            });
+                        </script>
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-2 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Medium</div>
-
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">High
+                                            </div>
+                                            <div id="highValue" class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <!-- Aquí se actualizará el valor -->
+                                            </div>
+                                            <div id="highPercentage" class="text-xs font-weight-bold text-gray-500">
+                                                <!-- Aquí se actualizará el porcentaje -->
                                             </div>
                                         </div>
-
                                         <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            <i class="fas fa-arrow-up fa-2x text-gray-300 icon-margin"></i>
+                                            <!-- Clase personalizada para margen izquierda -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <script>
+                            $(document).ready(function () {
+                                // Hacer una solicitud AJAX a tu API en Flask
+                                $.getJSON('/api/data', function (data) {
+                                    // Obtener los valores de AwaitAnalisis, Critical, High y Total
+                                    var awaitAnalisis = data.response.item.AwaitAnalisis;
+                                    var critical = data.response.item.Critical;
+                                    var high = data.response.item.High;
+                                    var total = data.response.item.Total;
+
+                                    // Calcular los porcentajes
+                                    var awaitAnalisisPercentage = ((awaitAnalisis / total) * 100).toFixed(2);
+                                    var criticalPercentage = ((critical / total) * 100).toFixed(2);
+                                    var highPercentage = ((high / total) * 100).toFixed(2);
+
+                                    // Actualizar los divs con los valores y los porcentajes obtenidos
+                                    $('#awaitAnalisisValue').text(awaitAnalisis);
+                                    $('#awaitAnalisisPercentage').text(awaitAnalisisPercentage + '% del total');
+
+                                    $('#criticalValue').text(critical);
+                                    $('#criticalPercentage').text(criticalPercentage + '% del total');
+
+                                    $('#highValue').text(high);
+                                    $('#highPercentage').text(highPercentage + '% del total');
+                                });
+                            });
+                        </script>
+                        <div class="col-xl-2 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Low
+                                            </div>
+                                            <div id="lowValue" class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <!-- Aquí se actualizará el valor -->
+                                            </div>
+                                            <div id="lowPercentage" class="text-xs font-weight-bold text-gray-500">
+                                                <!-- Aquí se actualizará el porcentaje -->
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-arrow-down fa-2x text-gray-300 icon-margin"></i>
+                                            <!-- Clase personalizada para margen izquierda -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            $(document).ready(function () {
+                                // Hacer una solicitud AJAX a tu API en Flask
+                                $.getJSON('/api/data', function (data) {
+                                    // Obtener los valores de AwaitAnalisis, Critical, High, Low y Total
+                                    var awaitAnalisis = data.response.item.AwaitAnalisis;
+                                    var critical = data.response.item.Critical;
+                                    var high = data.response.item.High;
+                                    var low = data.response.item.Low;
+                                    var total = data.response.item.Total;
+
+                                    // Calcular los porcentajes
+                                    var awaitAnalisisPercentage = ((awaitAnalisis / total) * 100).toFixed(2);
+                                    var criticalPercentage = ((critical / total) * 100).toFixed(2);
+                                    var highPercentage = ((high / total) * 100).toFixed(2);
+                                    var lowPercentage = ((low / total) * 100).toFixed(2);
+
+                                    // Actualizar los divs con los valores y los porcentajes obtenidos
+                                    $('#awaitAnalisisValue').text(awaitAnalisis);
+                                    $('#awaitAnalisisPercentage').text(awaitAnalisisPercentage + '% del total');
+
+                                    $('#criticalValue').text(critical);
+                                    $('#criticalPercentage').text(criticalPercentage + '% del total');
+
+                                    $('#highValue').text(high);
+                                    $('#highPercentage').text(highPercentage + '% del total');
+
+                                    $('#lowValue').text(low);
+                                    $('#lowPercentage').text(lowPercentage + '% del total');
+                                });
+                            });
+                        </script>
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-2 col-md-6 mb-4">
                             <div class="card border-left-info shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">High
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Medium
                                             </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
+                                            <div id="mediumValue" class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <!-- Aquí se actualizará el valor -->
+                                            </div>
+                                            <div id="mediumPercentage" class="text-xs font-weight-bold text-gray-500">
+                                                <!-- Aquí se actualizará el porcentaje -->
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                            <i class="fas fa-adjust fa-2x text-gray-300 icon-margin"></i>
+                                            <!-- Clase personalizada para margen izquierda -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <script>
+                            $(document).ready(function () {
+                                // Hacer una solicitud AJAX a tu API en Flask
+                                $.getJSON('/api/data', function (data) {
+                                    // Obtener los valores de AwaitAnalisis, Critical, High, Low, Medium y Total
+                                    var awaitAnalisis = data.response.item.AwaitAnalisis;
+                                    var critical = data.response.item.Critical;
+                                    var high = data.response.item.High;
+                                    var low = data.response.item.Low;
+                                    var medium = data.response.item.Medium;
+                                    var total = data.response.item.Total;
+
+                                    // Calcular los porcentajes
+                                    var awaitAnalisisPercentage = ((awaitAnalisis / total) * 100).toFixed(2);
+                                    var criticalPercentage = ((critical / total) * 100).toFixed(2);
+                                    var highPercentage = ((high / total) * 100).toFixed(2);
+                                    var lowPercentage = ((low / total) * 100).toFixed(2);
+                                    var mediumPercentage = ((medium / total) * 100).toFixed(2);
+
+                                    // Actualizar los divs con los valores y los porcentajes obtenidos
+                                    $('#awaitAnalisisValue').text(awaitAnalisis);
+                                    $('#awaitAnalisisPercentage').text(awaitAnalisisPercentage + '% del total');
+
+                                    $('#criticalValue').text(critical);
+                                    $('#criticalPercentage').text(criticalPercentage + '% del total');
+
+                                    $('#highValue').text(high);
+                                    $('#highPercentage').text(highPercentage + '% del total');
+
+                                    $('#lowValue').text(low);
+                                    $('#lowPercentage').text(lowPercentage + '% del total');
+
+                                    $('#mediumValue').text(medium);
+                                    $('#mediumPercentage').text(mediumPercentage + '% del total');
+                                });
+                            });
+                        </script>
 
                         <!-- Pending Requests Card Example -->
                         <div class="col-xl-2 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card border-left-secondary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Critical</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <div class="row no-gutters align-items-center">
-                                                    <div class="col-auto">
-                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%
-                                                        </div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="progress progress-sm mr-2">
-                                                            <div class="progress-bar bg-info" role="progressbar"
-                                                                style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                                aria-valuemax="100"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
+                                                None</div>
+                                            <div id="noneValue" class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <!-- Aquí se actualizará el valor -->
+                                            </div>
+                                            <div id="nonePercentage" class="text-xs font-weight-bold text-gray-500">
+                                                <!-- Aquí se actualizará el porcentaje -->
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                            <i class="fas fa-check fa-2x text-gray-300 icon-margin"></i>
+                                            <!-- Clase personalizada para margen izquierda -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                        <script>
+                            $(document).ready(function () {
+                                // Hacer una solicitud AJAX a tu API en Flask
+                                $.getJSON('/api/data', function (data) {
+                                    // Obtener los valores de None y Total
+                                    var none = data.response.item.None;
+                                    var total = data.response.item.Total;
+
+                                    // Calcular el porcentaje
+                                    var nonePercentage = ((none / total) * 100).toFixed(2);
+
+                                    // Asegurarse de que siempre se muestren al menos 4 cifras significativas para el porcentaje de None si es muy pequeño
+                                    if (nonePercentage < 0.01) {
+                                        nonePercentage = ((none / total) * 100).toPrecision(4);
+                                    }
+
+                                    // Actualizar los divs con los valores y el porcentaje obtenidos
+                                    $('#noneValue').text(none);
+                                    $('#nonePercentage').text(nonePercentage + '% del total');
+                                });
+                            });
+                        </script>
 
 
-                    <!-- Content Row -->
-
-                    <div class="container-fluid">
-                        <div class="dashboard-grid">
-                            <!-- Métricas 1-9 -->
-                            <!-- Celda 1 -->
-                            <div class="card">
+                        <div class="col-xl-12 col-md-12 mb-4 total-card">
+                            <div class="card border-left-dark shadow h-100 py-2">
                                 <div class="card-body">
-                                    <h2 class="text-center"><i class="fas fa-chart-bar"></i> Categorización de
-                                        Computadores</h2>
-                                    <canvas id="myChart" style="max-height: 400px;"></canvas>
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Total
+                                            </div>
+                                            <div id="totalValue" class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <!-- Aquí se actualizará el valor -->
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-chart-bar fa-2x text-gray-300 icon-margin"></i>
+                                            <!-- Clase personalizada para margen izquierda -->
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <script>
+                        </div>
+
+                        <script>
+                            $(document).ready(function () {
+                                // Hacer una solicitud AJAX a tu API en Flask
+                                $.getJSON('/api/data', function (data) {
+                                    // Obtener los valores de AwaitAnalisis, Critical, High, Low, Medium, None y Total
+                                    var awaitAnalisis = data.response.item.AwaitAnalisis;
+                                    var critical = data.response.item.Critical;
+                                    var high = data.response.item.High;
+                                    var low = data.response.item.Low;
+                                    var medium = data.response.item.Medium;
+                                    var none = data.response.item.None;
+                                    var total = data.response.item.Total;
+
+                                    // Calcular los porcentajes
+                                    var awaitAnalisisPercentage = ((awaitAnalisis / total) * 100).toFixed(2);
+                                    var criticalPercentage = ((critical / total) * 100).toFixed(2);
+                                    var highPercentage = ((high / total) * 100).toFixed(2);
+                                    var lowPercentage = ((low / total) * 100).toFixed(2);
+                                    var mediumPercentage = ((medium / total) * 100).toFixed(2);
+                                    var nonePercentage = ((none / total) * 100).toFixed(2);
+
+                                    // Actualizar los divs con los valores y los porcentajes obtenidos
+                                    $('#awaitAnalisisValue').text(awaitAnalisis);
+                                    $('#awaitAnalisisPercentage').text(awaitAnalisisPercentage + '% del total');
+
+                                    $('#criticalValue').text(critical);
+                                    $('#criticalPercentage').text(criticalPercentage + '% del total');
+
+                                    $('#highValue').text(high);
+                                    $('#highPercentage').text(highPercentage + '% del total');
+
+                                    $('#lowValue').text(low);
+                                    $('#lowPercentage').text(lowPercentage + '% del total');
+
+                                    $('#mediumValue').text(medium);
+                                    $('#mediumPercentage').text(mediumPercentage + '% del total');
+
+                                    $('#noneValue').text(none);
+                                    $('#nonePercentage').text(nonePercentage + '% del total');
+
+                                    // Actualizar el div del total
+                                    $('#totalValue').text(total);
+                                });
+                            });
+                        </script>
+
+
+                        <!-- Content Row -->
+
+                        <div class="container-fluid">
+                            <div class="dashboard-grid">
+                                <!-- Métricas 1-9 -->
+                                <!-- Celda 1 -->
+                                <div class="container" style="max-width: 100%; height: 70vh; margin: auto;">
+                                    <div class="card h-100 shadow">
+                                        <div class="card-body d-flex flex-column justify-content-center">
+                                            <h2 class="text-center"><i id="chart-icon" class="fas fa-chart-bar"></i> Categorización de Computadores</h2>
+                                            <div class="chart-container" style="position: relative; height: 80%; width: 100%;">
+                                                <canvas id="myChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <script>
                                 $(document).ready(function () {
+                                    // Cambiar el ícono según el tipo de gráfica
+                                    $('#chart-icon').removeClass().addClass('fas fa-chart-bar');
+                                
                                     $.getJSON('/data', function (data) {
                                         var ctx = document.getElementById('myChart').getContext('2d');
                                         var myChart = new Chart(ctx, {
@@ -861,373 +1220,448 @@
                                         });
                                     });
                                 });
-                            </script>
+                                </script>
+                                
 
-                            <!-- Celdas 2-9 -->
-                            <!-- Repetir este bloque para cada métrica ajustando el título y contenido según sea necesario -->
-                            <div class="card">
-                                <div class="card-body">
-                                    <h2 class="text-center"><i class="fas fa-chart-bar"></i> Población de municipios
-                                    </h2>
-                                    <canvas id="poblacionChart" style="max-height: 400px;"></canvas>
+
+                                <!-- Celdas 2-9 -->
+                                <!-- Repetir este bloque para cada métrica ajustando el título y contenido según sea necesario -->
+                                <div class="container" style="max-width: 90%; height: 70vh; margin: auto;">
+                                    <div class="card h-100 shadow">
+                                        <div class="card-body d-flex flex-column justify-content-center">
+                                            <h2 class="text-center"><i id="chart-icon" class="fas fa-chart-bar"></i> Población de Municipios</h2>
+                                            <div class="chart-container" style="position: relative; height: 80%; width: 100%;">
+                                                <canvas id="poblacionChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <script>
-                                fetch('/data3')
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        var ctx = document.getElementById('poblacionChart').getContext('2d');
-                                        var poblacionChart = new Chart(ctx, {
-                                            type: 'bar',
-                                            data: data,
-                                            options: {
-                                                responsive: true,
-                                                maintainAspectRatio: false,
-                                                scales: {
-                                                    yAxes: [{
-                                                        ticks: {
+
+                                <script>
+                                    fetch('/data3')
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            var ctx = document.getElementById('poblacionChart').getContext('2d');
+                                            var poblacionChart = new Chart(ctx, {
+                                                type: 'bar',
+                                                data: data,
+                                                options: {
+                                                    responsive: true,
+                                                    maintainAspectRatio: false,
+                                                    scales: {
+                                                        y: {
                                                             beginAtZero: true
                                                         }
-                                                    }]
+                                                    }
                                                 }
-                                            }
+                                            });
                                         });
-                                    });
-                            </script>
-                            <div class="card">
-                                <div class="card-body">
-                                    <h2 class="text-center"><i class="fas fa-chart-bar"></i> Consulta de CVE</h2>
-                                    <form id="cveForm" class="mt-4">
-                                        <div class="mb-3">
-                                            <label for="cve_id" class="form-label">CVE ID</label>
-                                            <input type="text" class="form-control" id="cve_id" name="cve_id" required>
-                                        </div>
-                                        <div class="d-flex justify-content-end">
-                                            <button type="submit" class="btn btn-primary me-2">Consultar</button>
-                                            <button class="noselect" type="button" onclick="clearResults()">
-                                                <span class="text">Delete</span>
-                                                <span class="icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24">
-                                                        <path
-                                                            d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z">
-                                                        </path>
-                                                    </svg>
-                                                </span>
-                                            </button>
-                                        </div>
-                                    </form>
-                                    <div id="loading" class="text-center"
-                                        style="display: none; position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%);">
-                                        <div aria-label="Orange and tan hamster running in a metal wheel" role="img"
-                                            class="wheel-and-hamster">
-                                            <div class="wheel"></div>
-                                            <div class="hamster">
-                                                <div class="hamster__body">
-                                                    <div class="hamster__head">
-                                                        <div class="hamster__ear"></div>
-                                                        <div class="hamster__eye"></div>
-                                                        <div class="hamster__nose"></div>
+                                </script>
+
+                                <div class="container" style="max-width: 100%; height: 70vh; margin: auto;">
+                                    <div class="card h-100">
+                                        <div class="card-body d-flex flex-column justify-content-center">
+                                            <h2 class="text-center"><i class="fas fa-chart-bar"></i> Consulta de CVE
+                                            </h2>
+                                            <form id="cveForm" class="mt-4 w-100">
+                                                <div class="mb-3">
+                                                    <label for="cve_id" class="form-label">CVE ID</label>
+                                                    <input type="text" class="form-control" id="cve_id" name="cve_id"
+                                                        required>
+                                                </div>
+                                                <div class="d-flex justify-content-end">
+                                                    <button type="submit"
+                                                        class="btn btn-primary me-2">Consultar</button>
+                                                    <button class="noselect" type="button" onclick="clearResults()">
+                                                        <span class="text">Borrar</span>
+                                                        <span class="icon">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24">
+                                                                <path
+                                                                    d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z">
+                                                                </path>
+                                                            </svg>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            <div id="loading" class="text-center mt-3" style="display: none;">
+                                                <div aria-label="Orange and tan hamster running in a metal wheel"
+                                                    role="img" class="wheel-and-hamster">
+                                                    <div class="wheel"></div>
+                                                    <div class="hamster">
+                                                        <div class="hamster__body">
+                                                            <div class="hamster__head">
+                                                                <div class="hamster__ear"></div>
+                                                                <div class="hamster__eye"></div>
+                                                                <div class="hamster__nose"></div>
+                                                            </div>
+                                                            <div class="hamster__limb hamster__limb--fr"></div>
+                                                            <div class="hamster__limb hamster__limb--fl"></div>
+                                                            <div class="hamster__limb hamster__limb--br"></div>
+                                                            <div class="hamster__limb hamster__limb--bl"></div>
+                                                            <div class="hamster__tail"></div>
+                                                        </div>
                                                     </div>
-                                                    <div class="hamster__limb hamster__limb--fr"></div>
-                                                    <div class="hamster__limb hamster__limb--fl"></div>
-                                                    <div class="hamster__limb hamster__limb--br"></div>
-                                                    <div class="hamster__limb hamster__limb--bl"></div>
-                                                    <div class="hamster__tail"></div>
+                                                    <div class="spoke"></div>
                                                 </div>
                                             </div>
-                                            <div class="spoke"></div>
+                                            <div id="result" class="mt-4" style="display: none;">
+                                                <!-- Los resultados de la consulta se mostrarán aquí -->
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div id="result" style="display: none;">
-                                        <!-- Los resultados de la consulta se mostrarán aquí -->
+                                <script>
+                                    document.getElementById('cveForm').addEventListener('submit', function (event) {
+                                        event.preventDefault();
+                                        const cveId = document.getElementById('cve_id').value;
+                                        showLoading(true);
+                                        fetch(`/api/cve/${cveId}`)
+                                            .then(response => {
+                                                if (!response.ok) {
+                                                    throw new Error('CVE no encontrado');
+                                                }
+                                                return response.json();
+                                            })
+                                            .then(({ data, cvss_score }) => {
+                                                const resultDiv = document.getElementById('result');
+                                                resultDiv.innerHTML = `
+                <h2 class="text-center">Resultado de consulta</h2>
+                <div class="table-responsive">
+                    <table class="table mt-4">
+                        <thead>
+                            <tr>
+                                <th scope="col">CVE ID</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Publicado</th>
+                                <th scope="col">Última modificación</th>
+                                <th scope="col">CVSS Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>${data.id}</td>
+                                <td>${data.summary}</td>
+                                <td>${data.Published}</td>
+                                <td>${data.Modified}</td>
+                                <td>${cvss_score}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            `;
+                                                showLoading(false);
+                                            })
+                                            .catch(error => {
+                                                console.error('Error:', error);
+                                                document.getElementById('result').innerHTML = '<div class="alert alert-danger" role="alert">' + error.message + '</div>';
+                                                showLoading(false);
+                                            });
+                                    });
+
+                                    function clearResults() {
+                                        document.getElementById('result').innerHTML = ''; // Limpia el contenido del div de resultados
+                                        document.getElementById('cve_id').value = ''; // Limpia el campo de entrada del CVE ID
+                                        showLoading(false);
+                                    }
+
+                                    function showLoading(show) {
+                                        document.getElementById('loading').style.display = show ? 'block' : 'none';
+                                        document.getElementById('result').style.display = show ? 'none' : 'block';
+                                    }
+                                </script>
+
+
+
+
+                                <div class="card" style="max-width: 100%; height: 70vh; margin: auto;">
+                                    <div class="card-body">
+                                        <h2 class="text-center"><i id="chart-icon" class="fas fa-chart-bar"></i> Gráfico
+                                            de Líneas de Vulnerabilidades</h2>
+                                        <div
+                                            class="d-flex flex-column justify-content-center align-items-center h-100 position-relative">
+                                            <div class="loader d-flex justify-content-center align-items-center position-absolute"
+                                                style="display: none;">
+                                                <div class="item1"></div>
+                                                <div class="item2"></div>
+                                                <div class="item3"></div>
+                                            </div>
+                                            <div
+                                                class="flex-grow-1 d-flex justify-content-center align-items-center w-100">
+                                                <canvas id="line-chart"
+                                                    style="max-height: 85%; display: none;"></canvas>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <script>
-                                document.getElementById('cveForm').addEventListener('submit', function (event) {
-                                    event.preventDefault();
-                                    const cveId = document.getElementById('cve_id').value;
-                                    showLoading(true);
-                                    fetch(`/api/cve/${cveId}`)
-                                        .then(response => {
-                                            if (!response.ok) {
-                                                throw new Error('CVE no encontrado');
+                                <script>
+                                    $(document).ready(function () {
+                                        // Cambiar el ícono según el tipo de gráfica
+                                        $('#chart-icon').removeClass().addClass('fas fa-chart-line');
+
+                                        // Mostrar el loader
+                                        $('.loader').show();
+                                        $('#line-chart').hide();
+
+                                        $.getJSON('/data2', function (data) {
+                                            if (data.error) {
+                                                console.error(data.error);
+                                                return;
                                             }
-                                            return response.json();
-                                        })
-                                        .then(({ data, cvss_score }) => {
-                                            const resultDiv = document.getElementById('result');
-                                            resultDiv.innerHTML = `
-                    <h2 class="text-center">Resultado de consulta</h2>
-                    <div class="table-responsive">
-                        <table class="table mt-4">
-                            <thead>
-                                <tr>
-                                    <th scope="col">CVE ID</th>
-                                    <th scope="col">Descripción</th>
-                                    <th scope="col">Publicado</th>
-                                    <th scope="col">Última modificación</th>
-                                    <th scope="col">CVSS Score</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>${data.id}</td>
-                                    <td>${data.summary}</td>
-                                    <td>${data.Published}</td>
-                                    <td>${data.Modified}</td>
-                                    <td>${cvss_score}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-                                            showLoading(false);
-                                        })
-                                        .catch(error => {
-                                            console.error('Error:', error);
-                                            document.getElementById('result').innerHTML = '<div class="alert alert-danger" role="alert">' + error.message + '</div>';
-                                            showLoading(false);
-                                        });
-                                });
 
-                                function clearResults() {
-                                    document.getElementById('result').innerHTML = ''; // Limpia el contenido del div de resultados
-                                    document.getElementById('cve_id').value = ''; // Limpia el campo de entrada del CVE ID
-                                    showLoading(false);
-                                }
+                                            // Mapeo de números de mes a nombres de meses
+                                            var monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
-                                function showLoading(show) {
-                                    document.getElementById('loading').style.display = show ? 'block' : 'none';
-                                    document.getElementById('result').style.display = show ? 'none' : 'block';
-                                }
-                            </script>
+                                            // Transformar datos para obtener etiquetas y valores
+                                            var labels = [];
+                                            var values = [];
 
+                                            data.forEach(function (item) {
+                                                var parts = item.mes.split('-');
+                                                var year = parts[0];
+                                                var month = parts[1];
+                                                labels.push(monthNames[parseInt(month) - 1] + ' ' + year);
+                                                values.push(item.valor);
+                                            });
 
-                            <div class="card">
-                                <div class="card-body">
-                                    <h2 class="text-center"><i class="fas fa-chart-bar"></i> Gráfico de Líneas de
-                                        Vulnerabilidades</h2>
-                                    <canvas id="line-chart" style="max-height: 85%;"></canvas>
-                                </div>
-                            </div>
-                            <script>
-                                $(document).ready(function () {
-                                    $.getJSON('/data2', function (data) {
-                                        var labels = data.map(function (item) {
-                                            return item.mes;
-                                        });
-
-                                        var values = data.map(function (item) {
-                                            return item.valor;
-                                        });
-
-                                        var ctx = document.getElementById('line-chart').getContext('2d');
-                                        var myChart = new Chart(ctx, {
-                                            type: 'line',
-                                            data: {
-                                                labels: labels,
-                                                datasets: [{
-                                                    label: 'Cantidad de Vulnerabilidades',
-                                                    data: values,
-                                                    fill: true,
-                                                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                                    borderColor: 'rgba(255, 99, 132, 1)',
-                                                    borderWidth: 2,
-                                                    tension: 0.4
-                                                }]
-                                            },
-                                            options: {
-                                                responsive: true,
-                                                maintainAspectRatio: false,
-                                                scales: {
-                                                    y: {
-                                                        beginAtZero: true,
-                                                        title: {
-                                                            display: true,
-                                                            text: 'Cantidad de Vulnerabilidades'
+                                            var ctx = document.getElementById('line-chart').getContext('2d');
+                                            var myChart = new Chart(ctx, {
+                                                type: 'line',
+                                                data: {
+                                                    labels: labels,
+                                                    datasets: [{
+                                                        label: 'Cantidad de Vulnerabilidades',
+                                                        data: values,
+                                                        fill: true,
+                                                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                                        borderColor: 'rgba(255, 99, 132, 1)',
+                                                        borderWidth: 2,
+                                                        tension: 0.4
+                                                    }]
+                                                },
+                                                options: {
+                                                    responsive: true,
+                                                    maintainAspectRatio: false,
+                                                    scales: {
+                                                        y: {
+                                                            beginAtZero: true,
+                                                            title: {
+                                                                display: true,
+                                                                text: 'Cantidad de Vulnerabilidades'
+                                                            }
+                                                        },
+                                                        x: {
+                                                            title: {
+                                                                display: true,
+                                                                text: 'Mes'
+                                                            }
                                                         }
                                                     },
-                                                    x: {
-                                                        title: {
-                                                            display: true,
-                                                            text: 'Mes'
-                                                        }
-                                                    }
-                                                },
-                                                interaction: {
-                                                    mode: 'index',
-                                                    intersect: false
-                                                },
-                                                hover: {
-                                                    mode: 'nearest',
-                                                    intersect: true
-                                                },
-                                                plugins: {
-                                                    tooltip: {
-                                                        callbacks: {
-                                                            label: function (context) {
-                                                                var label = context.dataset.label || '';
-                                                                if (label) {
-                                                                    label += ': ';
-                                                                }
-                                                                label += context.parsed.y;
+                                                    interaction: {
+                                                        mode: 'index',
+                                                        intersect: false
+                                                    },
+                                                    hover: {
+                                                        mode: 'nearest',
+                                                        intersect: true
+                                                    },
+                                                    plugins: {
+                                                        tooltip: {
+                                                            callbacks: {
+                                                                label: function (context) {
+                                                                    var label = context.dataset.label || '';
+                                                                    if (label) {
+                                                                        label += ': ';
+                                                                    }
+                                                                    label += context.parsed.y;
 
-                                                                if (context.parsed.y !== null) {
-                                                                    var index = context.dataIndex;
-                                                                    var currentMonth = data[index];
-                                                                    var previousMonth = data[index - 1] || { valor: currentMonth.valor };
-                                                                    var percentageChange = ((currentMonth.valor - previousMonth.valor) / (previousMonth.valor || 1)) * 100;
-                                                                    var comparison = currentMonth.valor > previousMonth.valor ? 'aumento' : 'disminución';
-                                                                    label += ' (' + comparison + ' del ' + Math.abs(percentageChange).toFixed(2) + '% respecto a ' + (previousMonth.mes || 'inicio') + ')';
+                                                                    if (context.parsed.y !== null) {
+                                                                        var index = context.dataIndex;
+                                                                        var currentMonth = data[index];
+                                                                        var previousMonth = data[index - 1] || { valor: currentMonth.valor };
+                                                                        var percentageChange = ((currentMonth.valor - previousMonth.valor) / (previousMonth.valor || 1)) * 100;
+                                                                        var comparison = currentMonth.valor > previousMonth.valor ? 'aumento' : 'disminución';
+                                                                        label += ' (' + comparison + ' del ' + Math.abs(percentageChange).toFixed(2) + '% respecto a ' + (previousMonth.mes || 'inicio') + ')';
+                                                                    }
+                                                                    return label;
                                                                 }
-                                                                return label;
                                                             }
                                                         }
                                                     }
                                                 }
+                                            });
+
+                                            // Ocultar el loader y mostrar el gráfico
+                                            $('.loader').hide();
+                                            $('#line-chart').show();
+
+                                            // Ajustar el tamaño del canvas al contenedor
+                                            function resizeCanvas() {
+                                                var canvas = document.getElementById('line-chart');
+                                                canvas.style.width = '100%';
+                                                canvas.style.height = canvas.parentElement.offsetHeight + 'px';
                                             }
+
+                                            // Llamar a resizeCanvas() cuando cambie el tamaño de la ventana
+                                            window.addEventListener('resize', resizeCanvas, false);
+
+                                            // Llamar a resizeCanvas() una vez al principio para establecer el tamaño inicial
+                                            resizeCanvas();
+                                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                                            console.error("Error al obtener los datos:", textStatus, errorThrown);
+                                            // Ocultar el loader incluso si hay un error
+                                            $('.loader').hide();
                                         });
-
-                                        // Ajustar el tamaño del canvas al contenedor
-                                        function resizeCanvas() {
-                                            var canvas = document.getElementById('line-chart');
-                                            canvas.style.width = '100%';
-                                            canvas.style.height = canvas.parentElement.offsetHeight + 'px';
-                                        }
-
-                                        // Llamar a resizeCanvas() cuando cambie el tamaño de la ventana
-                                        window.addEventListener('resize', resizeCanvas, false);
-
-                                        // Llamar a resizeCanvas() una vez al principio para establecer el tamaño inicial
-                                        resizeCanvas();
                                     });
-                                });
-                            </script>
-                            <div class="card">
-                                <div class="card shadow">
-                                    <div class="card-body text-center">
-                                        <h2 class="text-center"><i class="fas fa-chart-bar"></i> Total de
-                                            Vulnerabilidades</h2>
-                                        <div class="counter-container">
-                                            <div id="vulnerabilityCount" class="counter">Cargando...</div>
+                                </script>
+
+
+
+
+                                <div class="container" style="max-width: 100%; height: 70vh; margin: auto;">
+                                    <div class="row h-100" style="height: 70%;">
+                                        <div class="col-12 mb-4" style="height: 30%;">
+                                            <div class="card h-100">
+                                                <div
+                                                    class="card-body text-center d-flex flex-column justify-content-center">
+                                                    <h2 class="text-center"><i class="fas fa-chart-bar"></i> Total de
+                                                        Vulnerabilidades</h2>
+                                                    <div class="d-flex justify-content-center align-items-center h-100">
+                                                        <div id="vulnerabilityCount" class="counter">Cargando...</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-4" style="height: 30%;">
+                                            <div class="card h-100">
+                                                <div
+                                                    class="card-body text-center d-flex flex-column justify-content-center">
+                                                    <h2 class="text-center"><i class="fas fa-chart-bar"></i> Máquina Más
+                                                        Vulnerable</h2>
+                                                    <div class="d-flex justify-content-center align-items-center h-100">
+                                                        <div id="mostVulnerableMachine" class="machine-name">Cargando...
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12" style="height: 30%;">
+                                            <div class="card h-100">
+                                                <div
+                                                    class="card-body text-center d-flex flex-column justify-content-center">
+                                                    <h2 class="text-center"><i class="fas fa-chart-bar"></i> Máquina
+                                                        Menos Vulnerable</h2>
+                                                    <div class="d-flex justify-content-center align-items-center h-100">
+                                                        <div id="leastVulnerableMachine" class="machine-name">
+                                                            Cargando...</div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="card shadow mt-4">
-                                    <div class="card-body text-center">
-                                        <h2 class="text-center"><i class="fas fa-chart-bar"></i> Máquina Más Vulnerable
-                                        </h2>
-                                        <div class="machine-container">
-                                            <div id="mostVulnerableMachine" class="machine-name">Cargando...</div>
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        fetch('/data5')
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                document.getElementById('vulnerabilityCount').textContent = data.total_vulnerabilities;
+                                            })
+                                            .catch(error => console.error('Error al cargar los datos de vulnerabilidades:', error));
+
+                                        fetch('/data6')
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                document.getElementById('mostVulnerableMachine').textContent = data.machine_name;
+                                            })
+                                            .catch(error => console.error('Error al cargar los datos de la máquina más vulnerable:', error));
+
+                                        fetch('/data7')
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                document.getElementById('leastVulnerableMachine').textContent = data.machine_name;
+                                            })
+                                            .catch(error => console.error('Error al cargar los datos de la máquina menos vulnerable:', error));
+                                    });
+                                </script>
+
+
+
+
+
+
+                                <div class="container" style="max-width: 100%; height: 70vh; margin: auto;">
+                                    <div class="card h-100">
+                                        <div class="card-body text-center d-flex flex-column justify-content-center">
+                                            <h2 class="text-center">Top Vulnerabilidades</h2>
+                                            <div class="flex-grow-1 d-flex justify-content-center align-items-center">
+                                                <canvas id="vulnerabilitiesChart"></canvas>
+                                            </div>
+                                            <div class="table-responsive" style="height: 60%; overflow-y: scroll;">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Vulnerabilidad</th>
+                                                            <th>Severidad</th>
+                                                            <th>Descripción</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="vulnerabilitiesTable"></tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card shadow mt-4">
-                                    <div class="card-body text-center">
-                                        <h2 class="text-center"><i class="fas fa-chart-bar"></i> Máquina Menos
-                                            Vulnerable</h2>
-                                        <div class="machine-container">
-                                            <div id="leastVulnerableMachine" class="machine-name">Cargando...</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <script>
-                                document.addEventListener("DOMContentLoaded", function () {
-                                    fetch('/data5')
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            document.getElementById('vulnerabilityCount').textContent = data.total_vulnerabilities;
-                                        })
-                                        .catch(error => console.error('Error al cargar los datos de vulnerabilidades:', error));
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        fetch('/top-vulnerabilities')
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                const ctx = document.getElementById('vulnerabilitiesChart').getContext('2d');
+                                                const names = data.map(v => v.name);
+                                                const severities = data.map(v => v.severity);
+                                                const colors = [ // Definiendo un arreglo de colores
+                                                    'rgba(255, 159, 64, 0.2)', // Naranja claro
+                                                    'rgba(54, 162, 235, 0.2)', // Azul claro
+                                                    'rgba(255, 206, 86, 0.2)', // Amarillo claro
+                                                    'rgba(75, 192, 192, 0.2)', // Verde agua
+                                                    'rgba(153, 102, 255, 0.2)', // Violeta
+                                                    'rgba(255, 99, 132, 0.2)', // Rosa
+                                                    'rgba(199, 199, 199, 0.2)', // Gris
+                                                    'rgba(83, 102, 255, 0.2)', // Azul oscuro
+                                                    'rgba(40, 159, 64, 0.2)', // Verde oscuro
+                                                    'rgba(143, 162, 235, 0.2)'  // Azul pastel
+                                                ];
+                                                const borderColors = colors.map(color => color.replace('0.2', '1')); // Ajustando la opacidad para bordes
+                                                const chart = new Chart(ctx, {
+                                                    type: 'doughnut',
+                                                    data: {
+                                                        labels: names,
+                                                        datasets: [{
+                                                            label: 'Severidad',
+                                                            data: severities,
+                                                            backgroundColor: colors,
+                                                            borderColor: borderColors,
+                                                            borderWidth: 1
+                                                        }]
+                                                    }
+                                                });
 
-                                    fetch('/data6')
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            document.getElementById('mostVulnerableMachine').textContent = data.machine_name;
-                                        })
-                                        .catch(error => console.error('Error al cargar los datos de la máquina más vulnerable:', error));
+                                                const tableBody = document.getElementById('vulnerabilitiesTable');
+                                                data.forEach(v => {
+                                                    const row = `<tr><td>${v.name}</td><td>${v.severity}</td><td>${v.description}</td></tr>`;
+                                                    tableBody.innerHTML += row;
+                                                });
+                                            })
+                                            .catch(error => console.error('Error al cargar los datos:', error));
+                                    });
+                                </script>
 
-                                    fetch('/data7')
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            document.getElementById('leastVulnerableMachine').textContent = data.machine_name;
-                                        })
-                                        .catch(error => console.error('Error al cargar los datos de la máquina menos vulnerable:', error));
-                                });
-
-                            </script>
-                            <div class="card">
-                                <div class="card shadow">
-                                    <div class="card-body">
-                                        <h2 class="text-center">Top Vulnerabilidades</h2>
-                                        <canvas id="vulnerabilitiesChart"></canvas>
-                                        <div class="table-responsive" style="height: 340px; overflow-y: scroll;">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Vulnerabilidad</th>
-                                                        <th>Severidad</th>
-                                                        <th>Descripción</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="vulnerabilitiesTable"></tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <script>
-                                document.addEventListener("DOMContentLoaded", function () {
-                                    fetch('/top-vulnerabilities')
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            const ctx = document.getElementById('vulnerabilitiesChart').getContext('2d');
-                                            const names = data.map(v => v.name);
-                                            const severities = data.map(v => v.severity);
-                                            const colors = [ // Definiendo un arreglo de colores
-                                                'rgba(255, 159, 64, 0.2)', // Naranja claro
-                                                'rgba(54, 162, 235, 0.2)', // Azul claro
-                                                'rgba(255, 206, 86, 0.2)', // Amarillo claro
-                                                'rgba(75, 192, 192, 0.2)', // Verde agua
-                                                'rgba(153, 102, 255, 0.2)', // Violeta
-                                                'rgba(255, 99, 132, 0.2)', // Rosa
-                                                'rgba(199, 199, 199, 0.2)', // Gris
-                                                'rgba(83, 102, 255, 0.2)', // Azul oscuro
-                                                'rgba(40, 159, 64, 0.2)', // Verde oscuro
-                                                'rgba(143, 162, 235, 0.2)'  // Azul pastel
-                                            ];
-                                            const borderColors = colors.map(color => color.replace('0.2', '1')); // Ajustando la opacidad para bordes
-                                            const chart = new Chart(ctx, {
-                                                type: 'doughnut',
-                                                data: {
-                                                    labels: names,
-                                                    datasets: [{
-                                                        label: 'Severidad',
-                                                        data: severities,
-                                                        backgroundColor: colors,
-                                                        borderColor: borderColors,
-                                                        borderWidth: 1
-                                                    }]
-                                                }
-                                            });
-
-                                            const tableBody = document.getElementById('vulnerabilitiesTable');
-                                            data.forEach(v => {
-                                                const row = `<tr><td>${v.name}</td><td>${v.severity}</td><td>${v.description}</td></tr>`;
-                                                tableBody.innerHTML += row;
-                                            });
-                                        })
-                                        .catch(error => console.error('Error al cargar los datos:', error));
-                                });
-                            </script>
 
 
 </body>

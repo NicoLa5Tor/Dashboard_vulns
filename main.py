@@ -1,12 +1,37 @@
 from flask import Flask, render_template, jsonify, request
 import matplotlib.pyplot as plt
-import requests
+import requests,json
 
 app = Flask(__name__, static_folder='Static')
 
 @app.route('/index.html')
 def index():
     return render_template('index.html')
+
+def search_db():
+    data = {
+        "name_db": "NicolasJuan",
+        "_id": "Count_Vulns",
+        "name_collection": "Content"
+    }
+    try:
+        url = "https://mongoatlas-crxv.onrender.com/get_item"
+        response = requests.get(url=url, json=data)
+        if response.status_code == 200:
+            dat = response.json()
+            return dat['response']['item']
+        else:
+            print("Error de acceso al consultar")
+            return None
+    except Exception as e:
+        print(f"Error al consultar la base para en busca del item {str(e)}")
+        return None
+    
+@app.route('/api/data')
+def get_data():
+    data = search_db()
+    return jsonify({"response": {"item": data}})
+
 
 @app.route('/data')
 
@@ -25,23 +50,44 @@ def data():
     return jsonify(datos)
 
 
+def search1_db():
+    data = {
+        "name_db": "NicolasJuan",
+        "_id": "Vulns_Per_Month",
+        "name_collection": "Content"
+    }
+    
+    url = "https://mongoatlas-crxv.onrender.com/get_item"
+    
+    try:
+        response = requests.get(url=url, json=data)
+        if response.status_code == 200:
+            dat = response.json()
+            print("Datos obtenidos de la API:", json.dumps(dat, indent=4))  # Mensaje de depuración
+            return dat['response']['item']
+        else:
+            print(f"Error de acceso al consultar. Código de estado: {response.status_code}")
+            return None
+    except Exception as e:
+        print(f"Error al consultar la base en busca del item: {str(e)}")
+        return None
+
 @app.route('/data2')
 def data2():
-    vulnerabilities = [
-        {'mes': 'Mayo 2023', 'valor': 125678},
-        {'mes': 'Junio 2023', 'valor': 196759},
-        {'mes': 'Julio 2023', 'valor': 35445},
-        {'mes': 'Agosto 2023', 'valor': 57845},
-        {'mes': 'Septiembre 2023', 'valor': 24783},
-        {'mes': 'Octubre 2023', 'valor': 32346},
-        {'mes': 'Noviembre 2023', 'valor': 82323},
-        {'mes': 'Diciembre 2023', 'valor': 10352},
-        {'mes': 'Enero 2024', 'valor': 15128},
-        {'mes': 'Febrero 2024', 'valor': 91456},
-        {'mes': 'Marzo 2024', 'valor': 6312},
-        {'mes': 'Abril 2024', 'valor': 73456}
-    ]
-    return jsonify(vulnerabilities)
+    vulnerabilities = search1_db()
+    if vulnerabilities is None:
+        return jsonify({"error": "No se pudieron obtener los datos de la API"}), 500
+
+    # Transformar los datos para el formato de la gráfica
+    transformed_data = []
+    for year, months in vulnerabilities.items():
+        for month, value in months.items():
+            transformed_data.append({
+                'mes': f"{year}-{month}",
+                'valor': value
+            })
+    print("Datos transformados:", transformed_data)  # Mensaje de depuración
+    return jsonify(transformed_data)
 
 @app.route('/data3')
 def data3():
@@ -109,7 +155,6 @@ vulnerabilities = [
 def top_vulnerabilities():
     # Simulando una respuesta de la API con los datos
     return jsonify(vulnerabilities)
-
 
 @app.route('/api/cve/<cve_id>', methods=['GET'])
 def api_cve(cve_id):
