@@ -1,20 +1,26 @@
 from flask import Flask, render_template, jsonify, request
 import matplotlib.pyplot as plt
-import requests,json
+import requests
+import json
 
+# Crear una instancia de Flask
 app = Flask(__name__, static_folder='Static')
 
+# Ruta para servir la página principal
 @app.route('/index.html')
 def index():
     return render_template('index.html')
 
+# Función para buscar datos en la base de datos
 def search_db():
+    # Datos de ejemplo para la consulta
     data = {
         "name_db": "NicolasJuan",
         "_id": "Count_Vulns",
         "name_collection": "Content"
     }
     try:
+        # URL del servicio de consulta a la base de datos
         url = "https://mongoatlas-crxv.onrender.com/get_item"
         response = requests.get(url=url, json=data)
         if response.status_code == 200:
@@ -26,15 +32,15 @@ def search_db():
     except Exception as e:
         print(f"Error al consultar la base para en busca del item {str(e)}")
         return None
-    
+
+# Ruta para obtener datos desde la API
 @app.route('/api/data')
 def get_data():
     data = search_db()
     return jsonify({"response": {"item": data}})
 
-
+# Ruta para datos de ejemplo de una gráfica
 @app.route('/data')
-
 def data():
     datos = {
         'labels': ['PC 1', 'PC 2', 'PC 3', 'PC 4', 'PC 5', 'PC 6', 'PC 7', 'PC 8', 'PC 9', 'PC 10'],
@@ -44,12 +50,11 @@ def data():
             {'label': 'Medium', 'data': [200, 300, 100, 400, 300, 700, 400, 300, 200, 100], 'backgroundColor': 'rgba(255, 159, 64, 0.6)', 'borderColor': 'rgba(255, 159, 64, 1)', 'borderWidth': 1},
             {'label': 'Low', 'data': [100, 400, 300, 200, 100, 400, 200, 600, 100, 200], 'backgroundColor': 'rgba(255, 193, 7, 0.6)', 'borderColor': 'rgba(255, 193, 7, 1)', 'borderWidth': 1},
             {'label': 'Sin Catalogar', 'data': [700, 600, 500, 300, 400, 300, 300, 500, 400, 300], 'backgroundColor': 'rgba(128, 128, 128, 0.6)', 'borderColor': 'rgba(128, 128, 128, 1)', 'borderWidth': 1}
-
         ]
     }
     return jsonify(datos)
 
-
+# Función para buscar datos de vulnerabilidades por mes en la base de datos
 def search1_db():
     data = {
         "name_db": "NicolasJuan",
@@ -72,6 +77,7 @@ def search1_db():
         print(f"Error al consultar la base en busca del item: {str(e)}")
         return None
 
+# Ruta para obtener datos de vulnerabilidades por mes
 @app.route('/data2')
 def data2():
     vulnerabilities = search1_db()
@@ -89,6 +95,7 @@ def data2():
     print("Datos transformados:", transformed_data)  # Mensaje de depuración
     return jsonify(transformed_data)
 
+# Ruta para obtener datos de población
 @app.route('/data3')
 def data3():
     poblacion = {
@@ -123,21 +130,22 @@ def data3():
 
     return jsonify(datos)
 
+# Ruta para obtener el total de vulnerabilidades
 @app.route('/data5')
 def data5():
-    # Datos de ejemplo para el total de vulnerabilidades
     return jsonify({'total_vulnerabilities': 45367})
 
+# Ruta para obtener la máquina más vulnerable
 @app.route('/data6')
 def data6():
-    # Datos de ejemplo para la máquina más vulnerable
     return jsonify({'machine_name': 'Jdmoo-X123'})
+
+# Ruta para obtener la máquina menos vulnerable
 @app.route('/data7')
 def data7():
-    # Nueva función para la máquina menos vulnerable
     return jsonify({'machine_name': 'LessVuln Machine01'})
 
-# Datos simulados para el ejemplo, deberías reemplazar esto con una consulta a tu base de datos
+# Datos simulados de vulnerabilidades para ejemplo
 vulnerabilities = [
     {"name": "CVE-2021-34527", "severity": 9.8, "description": "Vulnerability in Windows Print Spooler Components."},
     {"name": "CVE-2021-44228", "severity": 10.0, "description": "Log4Shell vulnerability affecting Apache Log4j2."},
@@ -151,11 +159,12 @@ vulnerabilities = [
     {"name": "CVE-2022-22965", "severity": 9.8, "description": "Spring4Shell vulnerability in Spring Framework."}
 ]
 
+# Ruta para obtener las principales vulnerabilidades
 @app.route('/top-vulnerabilities')
 def top_vulnerabilities():
-    # Simulando una respuesta de la API con los datos
     return jsonify(vulnerabilities)
 
+# Ruta para obtener detalles de un CVE específico
 @app.route('/api/cve/<cve_id>', methods=['GET'])
 def api_cve(cve_id):
     url = f"https://cve.circl.lu/api/cve/{cve_id}"
@@ -167,6 +176,6 @@ def api_cve(cve_id):
     else:
         return {'error': 'CVE no encontrado'}, 404
 
+# Ejecutar la aplicación en modo debug
 if __name__ == '__main__':
     app.run(debug=True)
-

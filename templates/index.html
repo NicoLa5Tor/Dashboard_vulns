@@ -13,7 +13,6 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
     <link href="../Static/vendor/css/my.css" rel="stylesheet">
-    <!-- Custom styles for this template-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.0.2"></script>
     <link href="/Static/vendor/css/sb-admin-2.min.css" rel="stylesheet">
@@ -23,749 +22,17 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.0.2/chartjs-plugin-annotation.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.0.2"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <style>
-        /* Estilos adicionales */
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .card {
-            border-radius: 15px;
-        }
-
-        h2 {
-            color: #007bff;
-        }
-
-        /* Estilos adicionales para la tabla */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 1rem;
-            color: #212529;
-            background-color: transparent;
-        }
-
-        th,
-        td {
-            padding: 0.75rem;
-            vertical-align: top;
-            border-top: 1px solid #dee2e6;
-            white-space: normal;
-            /* Permite que el texto se ajuste automáticamente */
-        }
-
-        th {
-            background-color: #f8f9fa;
-            border-color: #dee2e6;
-        }
-
-        tbody th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-        }
-
-        tbody tr:nth-of-type(even) {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-
-        tbody tr:hover {
-            background-color: rgba(0, 0, 0, 0.075);
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            /* Tres columnas de igual tamaño */
-            grid-gap: 20px;
-            /* Espacio entre tarjetas */
-            padding: 20px;
-            /* Espacio alrededor de la grilla */
-        }
-
-        .card {
-            display: flex;
-            flex-direction: column;
-            background: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-header {
-            background-color: #007bff;
-            /* Azul */
-            color: white;
-            padding: 10px;
-            font-size: 16px;
-            text-align: center;
-            /* Centra el título */
-        }
-
-        #result {
-            max-height: 300px;
-            /* Establece una altura máxima para el área de resultados */
-            overflow-y: auto;
-            /* Permite desplazamiento vertical si el contenido es demasiado grande */
-            margin-top: 20px;
-            /* Espacio por encima del resultado para una mejor visualización */
-        }
-
-        canvas {
-            width: 100% !important;
-            max-height: 500px;
-            /* Controla la altura del gráfico */
-        }
-
-        .card-body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-bottom: 20px;
-            /* Centra los elementos hijos horizontalmente */
-        }
-
-        #vulnerabilityPieChart {
-            width: 70% !important;
-            max-width: 500px;
-            height: auto !important;
-            /* Mantiene la proporción */
-        }
-
-        .counter-container {
-            background-color: #f8f9fa;
-            /* Color de fondo suave */
-            border: 1px solid #dee2e6;
-            /* Borde sutil */
-            border-radius: 10px;
-            /* Bordes redondeados */
-            padding: 20px;
-            /* Espaciado interno */
-            margin-top: 20px;
-            /* Espaciado superior */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            /* Sombra suave para profundidad */
-        }
-
-        .counter {
-            font-size: 3rem;
-            /* Tamaño de fuente grande */
-            color: #0d6efd;
-            /* Color de Bootstrap 'primary' */
-            font-weight: bold;
-            /* Negrita para mayor impacto */
-        }
-
-        .container {
-            max-width: 600px;
-            /* Ajusta esto según el ancho deseado del contenedor */
-        }
-
-        .counter-container,
-        .machine-container {
-            background-color: #f8f9fa;
-            /* Color de fondo suave */
-            border: 1px solid #dee2e6;
-            /* Borde sutil */
-            border-radius: 10px;
-            /* Bordes redondeados */
-            padding: 30px;
-            /* Espaciado interno aumentado */
-            margin-top: 20px;
-            /* Espaciado superior */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            /* Sombra suave para profundidad */
-            width: 100%;
-            /* Asegura que ocupe todo el ancho disponible */
-        }
-
-        .counter,
-        .machine-name {
-            font-size: 4rem;
-            /* Tamaño de fuente aumentado */
-            color: #0d6efd;
-            /* Color de Bootstrap 'primary' */
-            font-weight: bold;
-            /* Negrita para mayor impacto */
-        }
-
-        button {
-            width: 150px;
-            height: 50px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            background: red;
-            border: none;
-            border-radius: 5px;
-            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
-            background: #e62222;
-        }
-
-        button,
-        button span {
-            transition: 200ms;
-        }
-
-        button .text {
-            transform: translateX(35px);
-            color: white;
-            font-weight: bold;
-        }
-
-        button .icon {
-            position: absolute;
-            border-left: 1px solid #c41b1b;
-            transform: translateX(110px);
-            height: 40px;
-            width: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        button svg {
-            width: 15px;
-            fill: #eee;
-        }
-
-        button:hover {
-            background: #ff3636;
-        }
-
-        button:hover .text {
-            color: transparent;
-        }
-
-        button:hover .icon {
-            width: 150px;
-            border-left: none;
-            transform: translateX(0);
-        }
-
-        button:focus {
-            outline: none;
-        }
-
-        button:active .icon svg {
-            transform: scale(0.8);
-        }
-
-        .wheel-and-hamster {
-            --dur: 1s;
-            position: relative;
-            width: 12em;
-            height: 12em;
-            font-size: 14px;
-        }
-
-        .wheel,
-        .hamster,
-        .hamster div,
-        .spoke {
-            position: absolute;
-        }
-
-        .wheel,
-        .spoke {
-            border-radius: 50%;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .wheel {
-            background: radial-gradient(100% 100% at center, hsla(0, 0%, 60%, 0) 47.8%, hsl(0, 0%, 60%) 48%);
-            z-index: 2;
-        }
-
-        .hamster {
-            animation: hamster var(--dur) ease-in-out infinite;
-            top: 50%;
-            left: calc(50% - 3.5em);
-            width: 7em;
-            height: 3.75em;
-            transform: rotate(4deg) translate(-0.8em, 1.85em);
-            transform-origin: 50% 0;
-            z-index: 1;
-        }
-
-        .hamster__head {
-            animation: hamsterHead var(--dur) ease-in-out infinite;
-            background: hsl(30, 90%, 55%);
-            border-radius: 70% 30% 0 100% / 40% 25% 25% 60%;
-            box-shadow: 0 -0.25em 0 hsl(30, 90%, 80%) inset,
-                0.75em -1.55em 0 hsl(30, 90%, 90%) inset;
-            top: 0;
-            left: -2em;
-            width: 2.75em;
-            height: 2.5em;
-            transform-origin: 100% 50%;
-        }
-
-        .hamster__ear {
-            animation: hamsterEar var(--dur) ease-in-out infinite;
-            background: hsl(0, 90%, 85%);
-            border-radius: 50%;
-            box-shadow: -0.25em 0 hsl(30, 90%, 55%) inset;
-            top: -0.25em;
-            right: -0.25em;
-            width: 0.75em;
-            height: 0.75em;
-            transform-origin: 50% 75%;
-        }
-
-        .hamster__eye {
-            animation: hamsterEye var(--dur) linear infinite;
-            background-color: hsl(0, 0%, 0%);
-            border-radius: 50%;
-            top: 0.375em;
-            left: 1.25em;
-            width: 0.5em;
-            height: 0.5em;
-        }
-
-        .hamster__nose {
-            background: hsl(0, 90%, 75%);
-            border-radius: 35% 65% 85% 15% / 70% 50% 50% 30%;
-            top: 0.75em;
-            left: 0;
-            width: 0.2em;
-            height: 0.25em;
-        }
-
-        .hamster__body {
-            animation: hamsterBody var(--dur) ease-in-out infinite;
-            background: hsl(30, 90%, 90%);
-            border-radius: 50% 30% 50% 30% / 15% 60% 40% 40%;
-            box-shadow: 0.1em 0.75em 0 hsl(30, 90%, 55%) inset,
-                0.15em -0.5em 0 hsl(30, 90%, 80%) inset;
-            top: 0.25em;
-            left: 2em;
-            width: 4.5em;
-            height: 3em;
-            transform-origin: 17% 50%;
-            transform-style: preserve-3d;
-        }
-
-        .hamster__limb--fr,
-        .hamster__limb--fl {
-            clip-path: polygon(0 0, 100% 0, 70% 80%, 60% 100%, 0% 100%, 40% 80%);
-            top: 2em;
-            left: 0.5em;
-            width: 1em;
-            height: 1.5em;
-            transform-origin: 50% 0;
-        }
-
-        .hamster__limb--fr {
-            animation: hamsterFRLimb var(--dur) linear infinite;
-            background: linear-gradient(hsl(30, 90%, 80%) 80%, hsl(0, 90%, 75%) 80%);
-            transform: rotate(15deg) translateZ(-1px);
-        }
-
-        .hamster__limb--fl {
-            animation: hamsterFLLimb var(--dur) linear infinite;
-            background: linear-gradient(hsl(30, 90%, 90%) 80%, hsl(0, 90%, 85%) 80%);
-            transform: rotate(15deg);
-        }
-
-        .hamster__limb--br,
-        .hamster__limb--bl {
-            border-radius: 0.75em 0.75em 0 0;
-            clip-path: polygon(0 0, 100% 0, 100% 30%, 70% 90%, 70% 100%, 30% 100%, 40% 90%, 0% 30%);
-            top: 1em;
-            left: 2.8em;
-            width: 1.5em;
-            height: 2.5em;
-            transform-origin: 50% 30%;
-        }
-
-        .hamster__limb--br {
-            animation: hamsterBRLimb var(--dur) linear infinite;
-            background: linear-gradient(hsl(30, 90%, 80%) 90%, hsl(0, 90%, 75%) 90%);
-            transform: rotate(-25deg) translateZ(-1px);
-        }
-
-        .hamster__limb--bl {
-            animation: hamsterBLLimb var(--dur) linear infinite;
-            background: linear-gradient(hsl(30, 90%, 90%) 90%, hsl(0, 90%, 85%) 90%);
-            transform: rotate(-25deg);
-        }
-
-        .hamster__tail {
-            animation: hamsterTail var(--dur) linear infinite;
-            background: hsl(0, 90%, 85%);
-            border-radius: 0.25em 50% 50% 0.25em;
-            box-shadow: 0 -0.2em 0 hsl(0, 90%, 75%) inset;
-            top: 1.5em;
-            right: -0.5em;
-            width: 1em;
-            height: 0.5em;
-            transform: rotate(30deg) translateZ(-1px);
-            transform-origin: 0.25em 0.25em;
-        }
-
-        .spoke {
-            animation: spoke var(--dur) linear infinite;
-            background: radial-gradient(100% 100% at center, hsl(0, 0%, 60%) 4.8%, hsla(0, 0%, 60%, 0) 5%),
-                linear-gradient(hsla(0, 0%, 55%, 0) 46.9%, hsl(0, 0%, 65%) 47% 52.9%, hsla(0, 0%, 65%, 0) 53%) 50% 50% / 99% 99% no-repeat;
-        }
-
-        /* Animations */
-        @keyframes hamster {
-
-            from,
-            to {
-                transform: rotate(4deg) translate(-0.8em, 1.85em);
-            }
-
-            50% {
-                transform: rotate(0) translate(-0.8em, 1.85em);
-            }
-        }
-
-        @keyframes hamsterHead {
-
-            from,
-            25%,
-            50%,
-            75%,
-            to {
-                transform: rotate(0);
-            }
-
-            12.5%,
-            37.5%,
-            62.5%,
-            87.5% {
-                transform: rotate(8deg);
-            }
-        }
-
-        @keyframes hamsterEye {
-
-            from,
-            90%,
-            to {
-                transform: scaleY(1);
-            }
-
-            95% {
-                transform: scaleY(0);
-            }
-        }
-
-        @keyframes hamsterEar {
-
-            from,
-            25%,
-            50%,
-            75%,
-            to {
-                transform: rotate(0);
-            }
-
-            12.5%,
-            37.5%,
-            62.5%,
-            87.5% {
-                transform: rotate(12deg);
-            }
-        }
-
-        @keyframes hamsterBody {
-
-            from,
-            25%,
-            50%,
-            75%,
-            to {
-                transform: rotate(0);
-            }
-
-            12.5%,
-            37.5%,
-            62.5%,
-            87.5% {
-                transform: rotate(-2deg);
-            }
-        }
-
-        @keyframes hamsterFRLimb {
-
-            from,
-            25%,
-            50%,
-            75%,
-            to {
-                transform: rotate(50deg) translateZ(-1px);
-            }
-
-            12.5%,
-            37.5%,
-            62.5%,
-            87.5% {
-                transform: rotate(-30deg) translateZ(-1px);
-            }
-        }
-
-        @keyframes hamsterFLLimb {
-
-            from,
-            25%,
-            50%,
-            75%,
-            to {
-                transform: rotate(-30deg);
-            }
-
-            12.5%,
-            37.5%,
-            62.5%,
-            87.5% {
-                transform: rotate(50deg);
-            }
-        }
-
-        @keyframes hamsterBRLimb {
-
-            from,
-            25%,
-            50%,
-            75%,
-            to {
-                transform: rotate(-60deg) translateZ(-1px);
-            }
-
-            12.5%,
-            37.5%,
-            62.5%,
-            87.5% {
-                transform: rotate(20deg) translateZ(-1px);
-            }
-        }
-
-        @keyframes hamsterBLLimb {
-
-            from,
-            25%,
-            50%,
-            75%,
-            to {
-                transform: rotate(20deg);
-            }
-
-            12.5%,
-            37.5%,
-            62.5%,
-            87.5% {
-                transform: rotate(-60deg);
-            }
-        }
-
-        @keyframes hamsterTail {
-
-            from,
-            25%,
-            50%,
-            75%,
-            to {
-                transform: rotate(30deg) translateZ(-1px);
-            }
-
-            12.5%,
-            37.5%,
-            62.5%,
-            87.5% {
-                transform: rotate(10deg) translateZ(-1px);
-            }
-        }
-
-        @keyframes spoke {
-            from {
-                transform: rotate(0);
-            }
-
-            to {
-                transform: rotate(-1turn);
-            }
-        }
-
-        .icon-margin {
-            margin-left: 15px;
-            /* Ajusta el valor según tus necesidades */
-        }
-
-        .item1,
-        .item2,
-        .item3 {
-            position: absolute;
-            background-color: transparent;
-            left: calc(50% - (var(--size) / 2));
-            top: calc(50% - (var(--size) / 2));
-            height: var(--size);
-            width: var(--size);
-            border-radius: 50%;
-        }
-
-        .loader .item1 {
-            --size: 90px;
-            animation: size1_1 2.5s infinite alternate;
-            z-index: 1;
-        }
-
-        .loader .item2 {
-            --size: 60px;
-            animation: size1_2 2.5s infinite alternate;
-            z-index: 2;
-        }
-
-        .loader .item3 {
-            --size: 30px;
-            animation: size1_3 2.5s infinite alternate;
-            z-index: 3;
-        }
-
-        @keyframes size1_1 {
-
-            0%,
-            10% {
-                transform: scale(0);
-            }
-
-            100% {
-                transform: scale(1);
-                box-shadow: 8px 8px 14px #c5c5c5, -8px -8px 14px #ffffff;
-            }
-        }
-
-        @keyframes size1_2 {
-
-            0%,
-            40% {
-                transform: scale(0);
-            }
-
-            100% {
-                transform: scale(1);
-                box-shadow: 8px 8px 14px #c5c5c5, -8px -8px 14px #ffffff;
-            }
-        }
-
-        @keyframes size1_3 {
-
-            0%,
-            70% {
-                transform: scale(0);
-            }
-
-            100% {
-                transform: scale(1);
-                box-shadow: 8px 8px 14px #c5c5c5, -8px -8px 14px #ffffff;
-            }
-        }
-
-        .loader {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            width: 100%;
-            position: absolute;
-        }
-
-        .h-33 {
-            height: 33%;
-        }
-
-        .counter,
-        .machine-name {
-            font-size: calc(1.5rem + 1vw);
-            /* Ajuste proporcional del tamaño de fuente */
-        }
-
-        h2 {
-            font-size: calc(1rem + 1vw);
-            /* Ajuste proporcional del tamaño de fuente */
-        }
-
-        /* Estilos adicionales para asegurar el ajuste proporcional del contenido */
-        .card {
-            max-width: 100%;
-            height: 80vh;
-            margin: auto;
-        }
-
-        .card-body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-
-        h2 {
-            font-size: calc(1rem + 1vw);
-            /* Ajuste proporcional del tamaño de fuente */
-        }
-
-        #vulnerabilitiesChart {
-            width: 100% !important;
-            height: 100% !important;
-        }
-
-        .counter,
-        .machine-name {
-            font-size: calc(1.5rem + 1vw);
-            /* Ajuste proporcional del tamaño de fuente */
-            font-weight: bold;
-            color: #333;
-        }
-
-        h2 {
-            font-size: calc(1rem + 1vw);
-            /* Ajuste proporcional del tamaño de fuente */
-        }
-
-        .chart-container {
-            max-width: 100%;
-            height: 70vh;
-            margin: auto;
-        }
-
-        .chart-card {
-            height: 100%;
-        }
-
-        .chart-body {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 100%;
-        }
-
-        .chart-canvas {
-            width: 100% !important;
-            height: 100% !important;
-            max-height: 90%;
-        }
-    </style>
+    <link rel="stylesheet" href="../Static/css/styles.css">
 </head>
 
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
-
-
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
@@ -774,6 +41,7 @@
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
                     <div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 w-100"
                         style="text-align: center;">
+                        <!-- Título del dashboard -->
                         <h4 class="h5 mb-0 font-weight-bold text-gray-800 ml-5"
                             style="text-transform: uppercase; margin-left: calc(5rem + 60px);">DASHBOARD DE
                             VULNERABILIDADES</h4>
@@ -781,38 +49,43 @@
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <div class="topbar-divider d-none d-sm-block"></div>
-                        <!-- Nav Item - User Information -->
+                        <!-- Información del usuario en la barra superior -->
                         <li class="nav-item dropdown no-arrow img">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">UCundinamarca</span>
+                                <!-- Imagen de perfil del usuario -->
                                 <img class="img-profile rounded-circle h-75 w-50" src="/Static/Assests/uc.png">
                             </a>
                         </li>
                     </ul>
-
                 </nav>
-                <!-- End of Topbar -->
-                <!-- Title body -->
+                <!-- Fin de la barra superior (Topbar) -->
+                <!-- Título del body -->
+
                 <div class="d-flex align-items-center justify-content-center">
+                    <!-- Contenedor principal -->
                     <div class="col-xl-8 col-md-6 mb-4 text-center">
+                        <!-- Tarjeta -->
                         <div class="card border-left-success shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
+                                        <!-- Título -->
                                         <div class="text-xs text-info text-uppercase mb-1">
-                                            VULNERABILIDADES EN EL MUNDO</div>
-
+                                            VULNERABILIDADES EN EL MUNDO
+                                        </div>
+                                        <!-- Nombre de los autores -->
                                         <div class="row no-gutters align-items-center text-center">
                                             <div class="col text-center">
                                                 <h4 class="h5 mb-0 font-weight-bold text-gray-800"
-                                                    style="text-transform: uppercase;">Nicolás Torres Rodriguez y Juan
-                                                    David Moreno</h4>
+                                                    style="text-transform: uppercase;">
+                                                    Nicolás Torres Rodriguez y Juan David Moreno
+                                                </h4>
                                             </div>
                                         </div>
-
                                     </div>
-
+                                    <!-- Icono -->
                                     <div class="col-auto">
                                         <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                                     </div>
@@ -821,26 +94,31 @@
                         </div>
                     </div>
                 </div>
-                <!-- Begin Page Content -->
+                <!-- Comienzo del contenido de la página -->
                 <div class="container-fluid">
-                    <!-- Content Row -->
+                    <!-- Fila de contenido -->
                     <div class="row justify-content-center">
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- Ejemplo de tarjeta de ganancias (mensual) -->
                         <div class="col-xl-2 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
+                                            <!-- Título -->
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                AwaitAnalisis</div>
+                                                AwaitAnalisis
+                                            </div>
+                                            <!-- Valor de AwaitAnalisis -->
                                             <div id="awaitAnalisisValue" class="h5 mb-0 font-weight-bold text-gray-800">
                                                 <!-- Aquí se actualizará el valor -->
                                             </div>
+                                            <!-- Porcentaje de AwaitAnalisis -->
                                             <div id="awaitAnalisisPercentage"
                                                 class="text-xs font-weight-bold text-gray-500">
                                                 <!-- Aquí se actualizará el porcentaje -->
                                             </div>
                                         </div>
+                                        <!-- Icono -->
                                         <div class="col-auto">
                                             <i class="fas fa-file-alt fa-2x text-gray-300 icon-margin"></i>
                                             <!-- Clase personalizada para margen izquierda -->
@@ -850,463 +128,261 @@
                             </div>
                         </div>
 
-                        <script>
-                            $(document).ready(function () {
-                                // Hacer una solicitud AJAX a tu API en Flask
-                                $.getJSON('/api/data', function (data) {
-                                    // Obtener los valores de AwaitAnalisis y Total
-                                    var awaitAnalisis = data.response.item.AwaitAnalisis;
-                                    var total = data.response.item.Total;
-
-                                    // Calcular el porcentaje
-                                    var percentage = ((awaitAnalisis / total) * 100).toFixed(2);
-
-                                    // Actualizar el div con el valor y el porcentaje obtenidos
-                                    $('#awaitAnalisisValue').text(awaitAnalisis);
-                                    $('#awaitAnalisisPercentage').text(percentage + '% del total');
-                                });
-                            });
-                        </script>
-                        <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-2 col-md-6 mb-4">
+                            <!-- Columna: xl=2, md=6, margen inferior 4 -->
                             <div class="card border-left-primary shadow h-100 py-2">
+                                <!-- Tarjeta: borde izquierdo primario, sombra, altura completa, padding vertical 2 -->
                                 <div class="card-body">
+                                    <!-- Cuerpo de la tarjeta -->
                                     <div class="row no-gutters align-items-center">
+                                        <!-- Fila: sin márgenes, elementos centrados verticalmente -->
                                         <div class="col mr-2">
+                                            <!-- Columna: margen derecho 2 -->
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Critical</div>
+                                                <!-- Texto pequeño, negrita, color primario, mayúsculas, margen inferior 1 -->
+                                                Critical
+                                            </div>
                                             <div id="criticalValue" class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <!-- Aquí se actualizará el valor -->
+                                                <!-- Valor crítico: tamaño h5, sin margen inferior, negrita, texto gris oscuro -->
                                             </div>
                                             <div id="criticalPercentage" class="text-xs font-weight-bold text-gray-500">
-                                                <!-- Aquí se actualizará el porcentaje -->
+                                                <!-- Porcentaje crítico: texto pequeño, negrita, texto gris claro -->
                                             </div>
                                         </div>
                                         <div class="col-auto">
+                                            <!-- Columna: ajuste automático de ancho -->
                                             <i class="fas fa-exclamation-triangle fa-2x text-gray-300 icon-margin"></i>
-                                            <!-- Clase personalizada para margen izquierda -->
+                                            <!-- Ícono de exclamación: tamaño 2x, color gris claro, margen izquierdo personalizado -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <script>
-                            $(document).ready(function () {
-                                // Hacer una solicitud AJAX a tu API en Flask
-                                $.getJSON('/api/data', function (data) {
-                                    // Obtener los valores de AwaitAnalisis, Critical y Total
-                                    var awaitAnalisis = data.response.item.AwaitAnalisis;
-                                    var critical = data.response.item.Critical;
-                                    var total = data.response.item.Total;
-
-                                    // Calcular los porcentajes
-                                    var awaitAnalisisPercentage = ((awaitAnalisis / total) * 100).toFixed(2);
-                                    var criticalPercentage = ((critical / total) * 100).toFixed(2);
-
-                                    // Actualizar los divs con los valores y los porcentajes obtenidos
-                                    $('#awaitAnalisisValue').text(awaitAnalisis);
-                                    $('#awaitAnalisisPercentage').text(awaitAnalisisPercentage + '% del total');
-
-                                    $('#criticalValue').text(critical);
-                                    $('#criticalPercentage').text(criticalPercentage + '% del total');
-                                });
-                            });
-                        </script>
-                        <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-2 col-md-6 mb-4">
+                            <!-- Columna: xl=2, md=6, margen inferior 4 -->
                             <div class="card border-left-success shadow h-100 py-2">
+                                <!-- Tarjeta: borde izquierdo verde, sombra, altura completa, padding vertical 2 -->
                                 <div class="card-body">
+                                    <!-- Cuerpo de la tarjeta -->
                                     <div class="row no-gutters align-items-center">
+                                        <!-- Fila: sin márgenes, elementos centrados verticalmente -->
                                         <div class="col mr-2">
+                                            <!-- Columna: margen derecho 2 -->
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">High
                                             </div>
+                                            <!-- Texto pequeño, negrita, color verde, mayúsculas, margen inferior 1 -->
                                             <div id="highValue" class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <!-- Aquí se actualizará el valor -->
+                                                <!-- Valor "High": tamaño h5, sin margen inferior, negrita, texto gris oscuro -->
                                             </div>
                                             <div id="highPercentage" class="text-xs font-weight-bold text-gray-500">
-                                                <!-- Aquí se actualizará el porcentaje -->
+                                                <!-- Porcentaje "High": texto pequeño, negrita, texto gris claro -->
                                             </div>
                                         </div>
                                         <div class="col-auto">
+                                            <!-- Columna: ajuste automático de ancho -->
                                             <i class="fas fa-arrow-up fa-2x text-gray-300 icon-margin"></i>
-                                            <!-- Clase personalizada para margen izquierda -->
+                                            <!-- Ícono de flecha arriba: tamaño 2x, color gris claro, margen izquierdo personalizado -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <script>
-                            $(document).ready(function () {
-                                // Hacer una solicitud AJAX a tu API en Flask
-                                $.getJSON('/api/data', function (data) {
-                                    // Obtener los valores de AwaitAnalisis, Critical, High y Total
-                                    var awaitAnalisis = data.response.item.AwaitAnalisis;
-                                    var critical = data.response.item.Critical;
-                                    var high = data.response.item.High;
-                                    var total = data.response.item.Total;
-
-                                    // Calcular los porcentajes
-                                    var awaitAnalisisPercentage = ((awaitAnalisis / total) * 100).toFixed(2);
-                                    var criticalPercentage = ((critical / total) * 100).toFixed(2);
-                                    var highPercentage = ((high / total) * 100).toFixed(2);
-
-                                    // Actualizar los divs con los valores y los porcentajes obtenidos
-                                    $('#awaitAnalisisValue').text(awaitAnalisis);
-                                    $('#awaitAnalisisPercentage').text(awaitAnalisisPercentage + '% del total');
-
-                                    $('#criticalValue').text(critical);
-                                    $('#criticalPercentage').text(criticalPercentage + '% del total');
-
-                                    $('#highValue').text(high);
-                                    $('#highPercentage').text(highPercentage + '% del total');
-                                });
-                            });
-                        </script>
                         <div class="col-xl-2 col-md-6 mb-4">
+                            <!-- Columna: xl=2, md=6, margen inferior 4 -->
                             <div class="card border-left-warning shadow h-100 py-2">
+                                <!-- Tarjeta: borde izquierdo amarillo, sombra, altura completa, padding vertical 2 -->
                                 <div class="card-body">
+                                    <!-- Cuerpo de la tarjeta -->
                                     <div class="row no-gutters align-items-center">
+                                        <!-- Fila: sin márgenes, elementos centrados verticalmente -->
                                         <div class="col mr-2">
+                                            <!-- Columna: margen derecho 2 -->
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Low
                                             </div>
+                                            <!-- Texto pequeño, negrita, color amarillo, mayúsculas, margen inferior 1 -->
                                             <div id="lowValue" class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <!-- Aquí se actualizará el valor -->
+                                                <!-- Valor "Low": tamaño h5, sin margen inferior, negrita, texto gris oscuro -->
                                             </div>
                                             <div id="lowPercentage" class="text-xs font-weight-bold text-gray-500">
-                                                <!-- Aquí se actualizará el porcentaje -->
+                                                <!-- Porcentaje "Low": texto pequeño, negrita, texto gris claro -->
                                             </div>
                                         </div>
                                         <div class="col-auto">
+                                            <!-- Columna: ajuste automático de ancho -->
                                             <i class="fas fa-arrow-down fa-2x text-gray-300 icon-margin"></i>
-                                            <!-- Clase personalizada para margen izquierda -->
+                                            <!-- Ícono de flecha abajo: tamaño 2x, color gris claro, margen izquierdo personalizado -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <script>
-                            $(document).ready(function () {
-                                // Hacer una solicitud AJAX a tu API en Flask
-                                $.getJSON('/api/data', function (data) {
-                                    // Obtener los valores de AwaitAnalisis, Critical, High, Low y Total
-                                    var awaitAnalisis = data.response.item.AwaitAnalisis;
-                                    var critical = data.response.item.Critical;
-                                    var high = data.response.item.High;
-                                    var low = data.response.item.Low;
-                                    var total = data.response.item.Total;
-
-                                    // Calcular los porcentajes
-                                    var awaitAnalisisPercentage = ((awaitAnalisis / total) * 100).toFixed(2);
-                                    var criticalPercentage = ((critical / total) * 100).toFixed(2);
-                                    var highPercentage = ((high / total) * 100).toFixed(2);
-                                    var lowPercentage = ((low / total) * 100).toFixed(2);
-
-                                    // Actualizar los divs con los valores y los porcentajes obtenidos
-                                    $('#awaitAnalisisValue').text(awaitAnalisis);
-                                    $('#awaitAnalisisPercentage').text(awaitAnalisisPercentage + '% del total');
-
-                                    $('#criticalValue').text(critical);
-                                    $('#criticalPercentage').text(criticalPercentage + '% del total');
-
-                                    $('#highValue').text(high);
-                                    $('#highPercentage').text(highPercentage + '% del total');
-
-                                    $('#lowValue').text(low);
-                                    $('#lowPercentage').text(lowPercentage + '% del total');
-                                });
-                            });
-                        </script>
-                        <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-2 col-md-6 mb-4">
+                            <!-- Columna: xl=2, md=6, margen inferior 4 -->
                             <div class="card border-left-info shadow h-100 py-2">
+                                <!-- Tarjeta: borde izquierdo azul, sombra, altura completa, padding vertical 2 -->
                                 <div class="card-body">
+                                    <!-- Cuerpo de la tarjeta -->
                                     <div class="row no-gutters align-items-center">
+                                        <!-- Fila: sin márgenes, elementos centrados verticalmente -->
                                         <div class="col mr-2">
+                                            <!-- Columna: margen derecho 2 -->
                                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Medium
                                             </div>
+                                            <!-- Texto pequeño, negrita, color azul, mayúsculas, margen inferior 1 -->
                                             <div id="mediumValue" class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <!-- Aquí se actualizará el valor -->
+                                                <!-- Valor "Medium": tamaño h5, sin margen inferior, negrita, texto gris oscuro -->
                                             </div>
                                             <div id="mediumPercentage" class="text-xs font-weight-bold text-gray-500">
-                                                <!-- Aquí se actualizará el porcentaje -->
+                                                <!-- Porcentaje "Medium": texto pequeño, negrita, texto gris claro -->
                                             </div>
                                         </div>
                                         <div class="col-auto">
+                                            <!-- Columna: ajuste automático de ancho -->
                                             <i class="fas fa-adjust fa-2x text-gray-300 icon-margin"></i>
-                                            <!-- Clase personalizada para margen izquierda -->
+                                            <!-- Ícono de ajuste: tamaño 2x, color gris claro, margen izquierdo personalizado -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <script>
-                            $(document).ready(function () {
-                                // Hacer una solicitud AJAX a tu API en Flask
-                                $.getJSON('/api/data', function (data) {
-                                    // Obtener los valores de AwaitAnalisis, Critical, High, Low, Medium y Total
-                                    var awaitAnalisis = data.response.item.AwaitAnalisis;
-                                    var critical = data.response.item.Critical;
-                                    var high = data.response.item.High;
-                                    var low = data.response.item.Low;
-                                    var medium = data.response.item.Medium;
-                                    var total = data.response.item.Total;
-
-                                    // Calcular los porcentajes
-                                    var awaitAnalisisPercentage = ((awaitAnalisis / total) * 100).toFixed(2);
-                                    var criticalPercentage = ((critical / total) * 100).toFixed(2);
-                                    var highPercentage = ((high / total) * 100).toFixed(2);
-                                    var lowPercentage = ((low / total) * 100).toFixed(2);
-                                    var mediumPercentage = ((medium / total) * 100).toFixed(2);
-
-                                    // Actualizar los divs con los valores y los porcentajes obtenidos
-                                    $('#awaitAnalisisValue').text(awaitAnalisis);
-                                    $('#awaitAnalisisPercentage').text(awaitAnalisisPercentage + '% del total');
-
-                                    $('#criticalValue').text(critical);
-                                    $('#criticalPercentage').text(criticalPercentage + '% del total');
-
-                                    $('#highValue').text(high);
-                                    $('#highPercentage').text(highPercentage + '% del total');
-
-                                    $('#lowValue').text(low);
-                                    $('#lowPercentage').text(lowPercentage + '% del total');
-
-                                    $('#mediumValue').text(medium);
-                                    $('#mediumPercentage').text(mediumPercentage + '% del total');
-                                });
-                            });
-                        </script>
-
-                        <!-- Pending Requests Card Example -->
                         <div class="col-xl-2 col-md-6 mb-4">
+                            <!-- Columna: xl=2, md=6, margen inferior 4 -->
                             <div class="card border-left-secondary shadow h-100 py-2">
+                                <!-- Tarjeta: borde izquierdo gris, sombra, altura completa, padding vertical 2 -->
                                 <div class="card-body">
+                                    <!-- Cuerpo de la tarjeta -->
                                     <div class="row no-gutters align-items-center">
+                                        <!-- Fila: sin márgenes, elementos centrados verticalmente -->
                                         <div class="col mr-2">
+                                            <!-- Columna: margen derecho 2 -->
                                             <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
                                                 None</div>
+                                            <!-- Texto pequeño, negrita, color gris, mayúsculas, margen inferior 1 -->
                                             <div id="noneValue" class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <!-- Aquí se actualizará el valor -->
+                                                <!-- Valor "None": tamaño h5, sin margen inferior, negrita, texto gris oscuro -->
                                             </div>
                                             <div id="nonePercentage" class="text-xs font-weight-bold text-gray-500">
-                                                <!-- Aquí se actualizará el porcentaje -->
+                                                <!-- Porcentaje "None": texto pequeño, negrita, texto gris claro -->
                                             </div>
                                         </div>
                                         <div class="col-auto">
+                                            <!-- Columna: ajuste automático de ancho -->
                                             <i class="fas fa-check fa-2x text-gray-300 icon-margin"></i>
-                                            <!-- Clase personalizada para margen izquierda -->
+                                            <!-- Ícono de check: tamaño 2x, color gris claro, margen izquierdo personalizado -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <script>
-                            $(document).ready(function () {
-                                // Hacer una solicitud AJAX a tu API en Flask
-                                $.getJSON('/api/data', function (data) {
-                                    // Obtener los valores de None y Total
-                                    var none = data.response.item.None;
-                                    var total = data.response.item.Total;
-
-                                    // Calcular el porcentaje
-                                    var nonePercentage = ((none / total) * 100).toFixed(2);
-
-                                    // Asegurarse de que siempre se muestren al menos 4 cifras significativas para el porcentaje de None si es muy pequeño
-                                    if (nonePercentage < 0.01) {
-                                        nonePercentage = ((none / total) * 100).toPrecision(4);
-                                    }
-
-                                    // Actualizar los divs con los valores y el porcentaje obtenidos
-                                    $('#noneValue').text(none);
-                                    $('#nonePercentage').text(nonePercentage + '% del total');
-                                });
-                            });
-                        </script>
-
-
                         <div class="col-xl-12 col-md-12 mb-4 total-card">
+                            <!-- Columna: xl=12, md=12, margen inferior 4 -->
                             <div class="card border-left-dark shadow h-100 py-2">
+                                <!-- Tarjeta: borde izquierdo negro, sombra, altura completa, padding vertical 2 -->
                                 <div class="card-body">
+                                    <!-- Cuerpo de la tarjeta -->
                                     <div class="row no-gutters align-items-center">
+                                        <!-- Fila: sin márgenes, elementos centrados verticalmente -->
                                         <div class="col mr-2">
+                                            <!-- Columna: margen derecho 2 -->
                                             <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Total
                                             </div>
+                                            <!-- Texto pequeño, negrita, color negro, mayúsculas, margen inferior 1 -->
                                             <div id="totalValue" class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <!-- Aquí se actualizará el valor -->
+                                                <!-- Valor "Total": tamaño h5, sin margen inferior, negrita, texto gris oscuro -->
                                             </div>
                                         </div>
                                         <div class="col-auto">
+                                            <!-- Columna: ajuste automático de ancho -->
                                             <i class="fas fa-chart-bar fa-2x text-gray-300 icon-margin"></i>
-                                            <!-- Clase personalizada para margen izquierda -->
+                                            <!-- Ícono de gráfico de barras: tamaño 2x, color gris claro, margen izquierdo personalizado -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <script>
-                            $(document).ready(function () {
-                                // Hacer una solicitud AJAX a tu API en Flask
-                                $.getJSON('/api/data', function (data) {
-                                    // Obtener los valores de AwaitAnalisis, Critical, High, Low, Medium, None y Total
-                                    var awaitAnalisis = data.response.item.AwaitAnalisis;
-                                    var critical = data.response.item.Critical;
-                                    var high = data.response.item.High;
-                                    var low = data.response.item.Low;
-                                    var medium = data.response.item.Medium;
-                                    var none = data.response.item.None;
-                                    var total = data.response.item.Total;
-
-                                    // Calcular los porcentajes
-                                    var awaitAnalisisPercentage = ((awaitAnalisis / total) * 100).toFixed(2);
-                                    var criticalPercentage = ((critical / total) * 100).toFixed(2);
-                                    var highPercentage = ((high / total) * 100).toFixed(2);
-                                    var lowPercentage = ((low / total) * 100).toFixed(2);
-                                    var mediumPercentage = ((medium / total) * 100).toFixed(2);
-                                    var nonePercentage = ((none / total) * 100).toFixed(2);
-
-                                    // Actualizar los divs con los valores y los porcentajes obtenidos
-                                    $('#awaitAnalisisValue').text(awaitAnalisis);
-                                    $('#awaitAnalisisPercentage').text(awaitAnalisisPercentage + '% del total');
-
-                                    $('#criticalValue').text(critical);
-                                    $('#criticalPercentage').text(criticalPercentage + '% del total');
-
-                                    $('#highValue').text(high);
-                                    $('#highPercentage').text(highPercentage + '% del total');
-
-                                    $('#lowValue').text(low);
-                                    $('#lowPercentage').text(lowPercentage + '% del total');
-
-                                    $('#mediumValue').text(medium);
-                                    $('#mediumPercentage').text(mediumPercentage + '% del total');
-
-                                    $('#noneValue').text(none);
-                                    $('#nonePercentage').text(nonePercentage + '% del total');
-
-                                    // Actualizar el div del total
-                                    $('#totalValue').text(total);
-                                });
-                            });
-                        </script>
-
-
-                        <!-- Content Row -->
 
                         <div class="container-fluid">
                             <div class="dashboard-grid">
-                                <!-- Métricas 1-9 -->
-                                <!-- Celda 1 -->
+                                <!-- Celda 1: Categorización de Computadores -->
                                 <div class="container" style="max-width: 100%; height: 100%; margin: auto;">
+                                    <!-- Contenedor: ancho máximo 100%, altura 100%, centrado -->
                                     <div class="card h-100 shadow">
+                                        <!-- Tarjeta: altura completa, sombra -->
                                         <div class="card-body d-flex flex-column justify-content-center">
-                                            <h2 class="text-center"><i id="chart-icon" class="fas fa-chart-bar"></i>
-                                                Categorización de Computadores</h2>
-                                            <div class="chart-container"
-                                                style="position: relative; height: 80%; width: 100%;">
-                                                <canvas id="myChart"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <script>
-                                    $(document).ready(function () {
-                                        // Cambiar el ícono según el tipo de gráfica
-                                        $('#chart-icon').removeClass().addClass('fas fa-chart-bar');
-
-                                        $.getJSON('/data', function (data) {
-                                            var ctx = document.getElementById('myChart').getContext('2d');
-                                            var myChart = new Chart(ctx, {
-                                                type: 'bar',
-                                                data: data,
-                                                options: {
-                                                    scales: {
-                                                        y: {
-                                                            beginAtZero: true
-                                                        }
-                                                    },
-                                                    plugins: {
-                                                        legend: {
-                                                            position: 'top',
-                                                            labels: {
-                                                                padding: 20,
-                                                                font: {
-                                                                    size: 14
-                                                                }
-                                                            }
-                                                        }
-                                                    },
-                                                    responsive: true,
-                                                    maintainAspectRatio: false
-                                                }
-                                            });
-                                        });
-                                    });
-                                </script>
-
-
-
-                                <!-- Celdas 2-9 -->
-                                <!-- Repetir este bloque para cada métrica ajustando el título y contenido según sea necesario -->
-                                <div class="container" style="max-width: 100%; height: 100%; margin: auto;">
-                                    <div class="card h-100 shadow">
-                                        <div class="card-body d-flex flex-column justify-content-center">
-                                            <h2 class="text-center"><i id="chart-icon" class="fas fa-chart-bar"></i>
-                                                Población de Municipios</h2>
-                                            <div class="chart-container"
-                                                style="position: relative; height: 80%; width: 100%;">
-                                                <canvas id="poblacionChart"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <script>
-                                    fetch('/data3')
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            var ctx = document.getElementById('poblacionChart').getContext('2d');
-                                            var poblacionChart = new Chart(ctx, {
-                                                type: 'bar',
-                                                data: data,
-                                                options: {
-                                                    responsive: true,
-                                                    maintainAspectRatio: false,
-                                                    scales: {
-                                                        y: {
-                                                            beginAtZero: true
-                                                        }
-                                                    }
-                                                }
-                                            });
-                                        });
-                                </script>
-
-                                <div class="container" style="max-width: 100%; height: 70vh; margin: auto;">
-                                    <div class="card h-100">
-                                        <div class="card-body d-flex flex-column justify-content-center">
-                                            <h2 class="text-center"><i class="fas fa-chart-bar"></i> Consulta de CVE
+                                            <!-- Cuerpo de la tarjeta: disposición flexible en columna, centrado vertical -->
+                                            <h2 class="text-center">
+                                                <i id="chart-icon" class="fas fa-chart-bar"></i> Categorización de
+                                                Computadores
                                             </h2>
+                                            <!-- Encabezado con ícono y texto centrado -->
+                                            <div class="chart-container"
+                                                style="position: relative; height: 80%; width: 100%;">
+                                                <!-- Contenedor de la gráfica: posición relativa, altura 80%, ancho 100% -->
+                                                <canvas id="myChart"></canvas>
+                                                <!-- Canvas para la gráfica -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Celda 2: Población de Municipios -->
+                                <div class="container" style="max-width: 100%; height: 100%; margin: auto;">
+                                    <!-- Contenedor: ancho máximo 100%, altura 100%, centrado -->
+                                    <div class="card h-100 shadow">
+                                        <!-- Tarjeta: altura completa, sombra -->
+                                        <div class="card-body d-flex flex-column justify-content-center">
+                                            <!-- Cuerpo de la tarjeta: disposición flexible en columna, centrado vertical -->
+                                            <h2 class="text-center">
+                                                <i id="chart-icon" class="fas fa-chart-bar"></i> Población de Municipios
+                                            </h2>
+                                            <!-- Encabezado con ícono y texto centrado -->
+                                            <div class="chart-container"
+                                                style="position: relative; height: 80%; width: 100%;">
+                                                <!-- Contenedor de la gráfica: posición relativa, altura 80%, ancho 100% -->
+                                                <canvas id="poblacionChart"></canvas>
+                                                <!-- Canvas para la gráfica -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Contenedor principal con un ancho máximo del 100% y una altura del 70% de la ventana gráfica. -->
+                                <div class="container" style="max-width: 100%; height: 70vh; margin: auto;">
+                                    <!-- Tarjeta que ocupa toda la altura del contenedor. -->
+                                    <div class="card h-100">
+                                        <!-- Cuerpo de la tarjeta con contenido centrado verticalmente. -->
+                                        <div class="card-body d-flex flex-column justify-content-center">
+                                            <!-- Título centrado con un icono de gráfico de barras. -->
+                                            <h2 class="text-center">
+                                                <i class="fas fa-chart-bar"></i> Consulta de CVE
+                                            </h2>
+                                            <!-- Formulario con un margen superior y ancho completo. -->
                                             <form id="cveForm" class="mt-4 w-100">
+                                                <!-- Grupo de formulario con un margen inferior. -->
                                                 <div class="mb-3">
+                                                    <!-- Etiqueta para el campo de entrada de texto. -->
                                                     <label for="cve_id" class="form-label">CVE ID</label>
+                                                    <!-- Campo de entrada de texto para el ID del CVE, es obligatorio. -->
                                                     <input type="text" class="form-control" id="cve_id" name="cve_id"
                                                         required>
                                                 </div>
                                                 <div class="d-flex justify-content-end">
+                                                    <!-- Contenedor para los botones: disposición flexible, alineación a la derecha -->
                                                     <button type="submit"
                                                         class="btn btn-primary me-2">Consultar</button>
+                                                    <!-- Botón de envío: clase de botón primario, margen derecho 2 -->
                                                     <button class="noselect" type="button" onclick="clearResults()">
+                                                        <!-- Botón de borrado: sin selección, tipo botón, función clearResults() -->
                                                         <span class="text">Borrar</span>
                                                         <span class="icon">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                                 height="24" viewBox="0 0 24 24">
+                                                                <!-- SVG del icono de borrado -->
                                                                 <path
                                                                     d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z">
                                                                 </path>
@@ -1314,261 +390,121 @@
                                                         </span>
                                                     </button>
                                                 </div>
+
                                             </form>
+                                            <!-- Div para el indicador de carga, inicialmente oculto. -->
                                             <div id="loading" class="text-center mt-3" style="display: none;">
+                                                <!-- Div con rol de imagen y aria-label describiendo la animación del hámster corriendo en una rueda de metal. -->
                                                 <div aria-label="Orange and tan hamster running in a metal wheel"
                                                     role="img" class="wheel-and-hamster">
+                                                    <!-- Rueda de la animación. -->
                                                     <div class="wheel"></div>
+                                                    <!-- Hámster de la animación. -->
                                                     <div class="hamster">
                                                         <div class="hamster__body">
+                                                            <!-- Cabeza del hámster con sus partes internas. -->
                                                             <div class="hamster__head">
                                                                 <div class="hamster__ear"></div>
                                                                 <div class="hamster__eye"></div>
                                                                 <div class="hamster__nose"></div>
                                                             </div>
+                                                            <!-- Extremidades del hámster, identificadas por sus posiciones (frontal derecha, frontal izquierda, trasera derecha, trasera izquierda). -->
                                                             <div class="hamster__limb hamster__limb--fr"></div>
                                                             <div class="hamster__limb hamster__limb--fl"></div>
                                                             <div class="hamster__limb hamster__limb--br"></div>
                                                             <div class="hamster__limb hamster__limb--bl"></div>
+                                                            <!-- Cola del hámster. -->
                                                             <div class="hamster__tail"></div>
                                                         </div>
                                                     </div>
+                                                    <!-- Rayo de la rueda de la animación. -->
                                                     <div class="spoke"></div>
                                                 </div>
                                             </div>
+
                                             <div id="result" class="mt-4" style="display: none;">
                                                 <!-- Los resultados de la consulta se mostrarán aquí -->
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <script>
-                                    document.getElementById('cveForm').addEventListener('submit', function (event) {
-                                        event.preventDefault();
-                                        const cveId = document.getElementById('cve_id').value;
-                                        showLoading(true);
-                                        fetch(`/api/cve/${cveId}`)
-                                            .then(response => {
-                                                if (!response.ok) {
-                                                    throw new Error('CVE no encontrado');
-                                                }
-                                                return response.json();
-                                            })
-                                            .then(({ data, cvss_score }) => {
-                                                const resultDiv = document.getElementById('result');
-                                                resultDiv.innerHTML = `
-                <h2 class="text-center">Resultado de consulta</h2>
-                <div class="table-responsive">
-                    <table class="table mt-4">
-                        <thead>
-                            <tr>
-                                <th scope="col">CVE ID</th>
-                                <th scope="col">Descripción</th>
-                                <th scope="col">Publicado</th>
-                                <th scope="col">Última modificación</th>
-                                <th scope="col">CVSS Score</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>${data.id}</td>
-                                <td>${data.summary}</td>
-                                <td>${data.Published}</td>
-                                <td>${data.Modified}</td>
-                                <td>${cvss_score}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            `;
-                                                showLoading(false);
-                                            })
-                                            .catch(error => {
-                                                console.error('Error:', error);
-                                                document.getElementById('result').innerHTML = '<div class="alert alert-danger" role="alert">' + error.message + '</div>';
-                                                showLoading(false);
-                                            });
-                                    });
-
-                                    function clearResults() {
-                                        document.getElementById('result').innerHTML = ''; // Limpia el contenido del div de resultados
-                                        document.getElementById('cve_id').value = ''; // Limpia el campo de entrada del CVE ID
-                                        showLoading(false);
-                                    }
-
-                                    function showLoading(show) {
-                                        document.getElementById('loading').style.display = show ? 'block' : 'none';
-                                        document.getElementById('result').style.display = show ? 'none' : 'block';
-                                    }
-                                </script>
-
-
-
-
+                                <!-- Contenedor principal para el gráfico de líneas de vulnerabilidades. -->
                                 <div class="container chart-container">
+                                    <!-- Tarjeta para el gráfico. -->
                                     <div class="card chart-card">
+                                        <!-- Cuerpo de la tarjeta del gráfico. -->
                                         <div class="card-body chart-body">
-                                            <h2 class="text-center"><i id="chart-icon" class="fas fa-chart-bar"></i>
-                                                Gráfico de Líneas de Vulnerabilidades</h2>
+                                            <!-- Título centrado con un icono de gráfico de barras. -->
+                                            <h2 class="text-center">
+                                                <i id="chart-icon" class="fas fa-chart-bar"></i> Gráfico de Líneas de
+                                                Vulnerabilidades
+                                            </h2>
+                                            <!-- Contenedor flexible para el gráfico de líneas, centrado horizontal y verticalmente. -->
                                             <div class="flex-grow-1 d-flex justify-content-center align-items-center">
+                                                <!-- Elemento canvas para el gráfico de líneas. -->
                                                 <canvas id="line-chart" class="chart-canvas"></canvas>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                                <script
-                                    src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-                                <script>
-                                    $(document).ready(function () {
-                                        $('#chart-icon').removeClass().addClass('fas fa-chart-line');
-
-                                        $.getJSON('/data2', function (data) {
-                                            console.log("Datos recibidos:", data);  // Mensaje de depuración
-                                            if (data.error) {
-                                                console.error(data.error);
-                                                return;
-                                            }
-
-                                            var monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-
-                                            var labels = [];
-                                            var values = [];
-
-                                            data.forEach(function (item) {
-                                                var parts = item.mes.split('-');
-                                                var year = parts[0];
-                                                var month = parts[1];
-                                                labels.push(monthNames[parseInt(month) - 1] + ' ' + year);
-                                                values.push(item.valor);
-                                            });
-
-                                            console.log("Etiquetas:", labels);  // Mensaje de depuración
-                                            console.log("Valores:", values);    // Mensaje de depuración
-
-                                            var ctx = document.getElementById('line-chart').getContext('2d');
-                                            var myChart = new Chart(ctx, {
-                                                type: 'line',
-                                                data: {
-                                                    labels: labels,
-                                                    datasets: [{
-                                                        label: 'Cantidad de Vulnerabilidades',
-                                                        data: values,
-                                                        fill: true,
-                                                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                                        borderColor: 'rgba(255, 99, 132, 1)',
-                                                        borderWidth: 2,
-                                                        tension: 0.4
-                                                    }]
-                                                },
-                                                options: {
-                                                    responsive: true,
-                                                    maintainAspectRatio: false,
-                                                    scales: {
-                                                        y: {
-                                                            beginAtZero: true,
-                                                            title: {
-                                                                display: true,
-                                                                text: 'Cantidad de Vulnerabilidades'
-                                                            }
-                                                        },
-                                                        x: {
-                                                            title: {
-                                                                display: true,
-                                                                text: 'Mes'
-                                                            }
-                                                        }
-                                                    },
-                                                    interaction: {
-                                                        mode: 'index',
-                                                        intersect: false
-                                                    },
-                                                    hover: {
-                                                        mode: 'nearest',
-                                                        intersect: true
-                                                    },
-                                                    plugins: {
-                                                        tooltip: {
-                                                            callbacks: {
-                                                                label: function (context) {
-                                                                    var label = context.dataset.label || '';
-                                                                    if (label) {
-                                                                        label += ': ';
-                                                                    }
-                                                                    label += context.parsed.y;
-
-                                                                    if (context.parsed.y !== null) {
-                                                                        var index = context.dataIndex;
-                                                                        var currentMonth = data[index];
-                                                                        var previousMonth = data[index - 1] || { valor: currentMonth.valor };
-                                                                        var percentageChange = ((currentMonth.valor - previousMonth.valor) / (previousMonth.valor || 1)) * 100;
-                                                                        var comparison = currentMonth.valor > previousMonth.valor ? 'aumento' : 'disminución';
-                                                                        label += ' (' + comparison + ' del ' + Math.abs(percentageChange).toFixed(2) + '% respecto a ' + (previousMonth.mes || 'inicio') + ')';
-                                                                    }
-                                                                    return label;
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            });
-
-                                            // Ajustar el tamaño del canvas al contenedor
-                                            function resizeCanvas() {
-                                                var canvas = document.getElementById('line-chart');
-                                                canvas.style.width = '100%';
-                                                canvas.style.height = '100%';
-                                            }
-
-                                            // Llamar a resizeCanvas() cuando cambie el tamaño de la ventana
-                                            window.addEventListener('resize', resizeCanvas, false);
-
-                                            // Llamar a resizeCanvas() una vez al principio para establecer el tamaño inicial
-                                            resizeCanvas();
-                                        }).fail(function (jqXHR, textStatus, errorThrown) {
-                                            console.error("Error al obtener los datos:", textStatus, errorThrown);
-                                        });
-                                    });
-                                </script>
-
-
+                                <!-- Contenedor principal con un ancho máximo del 100% y una altura del 70% de la ventana gráfica. -->
                                 <div class="container" style="max-width: 100%; height: 70vh; margin: auto;">
+                                    <!-- Fila con altura del 70%. -->
                                     <div class="row h-100" style="height: 70%;">
+                                        <!-- Columna para la tarjeta del total de vulnerabilidades, con altura del 30%. -->
                                         <div class="col-12 mb-4" style="height: 30%;">
+                                            <!-- Tarjeta que ocupa toda la altura del contenedor. -->
                                             <div class="card h-100">
+                                                <!-- Cuerpo de la tarjeta con contenido centrado verticalmente. -->
                                                 <div
                                                     class="card-body text-center d-flex flex-column justify-content-center">
-                                                    <h2 class="text-center"><i class="fas fa-chart-bar"></i> Total de
-                                                        Vulnerabilidades</h2>
+                                                    <!-- Título centrado con un icono de gráfico de barras. -->
+                                                    <h2 class="text-center">
+                                                        <i class="fas fa-chart-bar"></i> Total de Vulnerabilidades
+                                                    </h2>
+                                                    <!-- Contenedor flexible centrado horizontal y verticalmente para el contador de vulnerabilidades. -->
                                                     <div class="d-flex justify-content-center align-items-center h-100">
+                                                        <!-- Div para mostrar el total de vulnerabilidades, inicialmente cargando. -->
                                                         <div id="vulnerabilityCount" class="counter">Cargando...</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- Columna para la tarjeta de la máquina más vulnerable, con altura del 30%. -->
                                         <div class="col-12 mb-4" style="height: 30%;">
+                                            <!-- Tarjeta que ocupa toda la altura del contenedor. -->
                                             <div class="card h-100">
+                                                <!-- Cuerpo de la tarjeta con contenido centrado verticalmente. -->
                                                 <div
                                                     class="card-body text-center d-flex flex-column justify-content-center">
-                                                    <h2 class="text-center"><i class="fas fa-chart-bar"></i> Máquina Más
-                                                        Vulnerable</h2>
+                                                    <!-- Título centrado con un icono de gráfico de barras. -->
+                                                    <h2 class="text-center">
+                                                        <i class="fas fa-chart-bar"></i> Máquina Más Vulnerable
+                                                    </h2>
+                                                    <!-- Contenedor flexible centrado horizontal y verticalmente para el nombre de la máquina más vulnerable. -->
                                                     <div class="d-flex justify-content-center align-items-center h-100">
+                                                        <!-- Div para mostrar el nombre de la máquina más vulnerable, inicialmente cargando. -->
                                                         <div id="mostVulnerableMachine" class="machine-name">Cargando...
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- Columna para la tarjeta de la máquina menos vulnerable, con altura del 30%. -->
                                         <div class="col-12" style="height: 30%;">
+                                            <!-- Tarjeta que ocupa toda la altura del contenedor. -->
                                             <div class="card h-100">
+                                                <!-- Cuerpo de la tarjeta con contenido centrado verticalmente. -->
                                                 <div
                                                     class="card-body text-center d-flex flex-column justify-content-center">
-                                                    <h2 class="text-center"><i class="fas fa-chart-bar"></i> Máquina
-                                                        Menos Vulnerable</h2>
+                                                    <!-- Título centrado con un icono de gráfico de barras. -->
+                                                    <h2 class="text-center">
+                                                        <i class="fas fa-chart-bar"></i> Máquina Menos Vulnerable
+                                                    </h2>
+                                                    <!-- Contenedor flexible centrado horizontal y verticalmente para el nombre de la máquina menos vulnerable. -->
                                                     <div class="d-flex justify-content-center align-items-center h-100">
+                                                        <!-- Div para mostrar el nombre de la máquina menos vulnerable, inicialmente cargando. -->
                                                         <div id="leastVulnerableMachine" class="machine-name">
                                                             Cargando...</div>
                                                     </div>
@@ -1578,109 +514,44 @@
                                     </div>
                                 </div>
 
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", function () {
-                                        fetch('/data5')
-                                            .then(response => response.json())
-                                            .then(data => {
-                                                document.getElementById('vulnerabilityCount').textContent = data.total_vulnerabilities;
-                                            })
-                                            .catch(error => console.error('Error al cargar los datos de vulnerabilidades:', error));
+                                <!-- Contenedor principal con un margen superior y un ancho máximo del 100%, altura del 70% de la ventana gráfica. -->
+                                <div class="container mt-2" style="max-width: 100%; height: 70vh; margin: auto;">
+                                    <!-- Tarjeta que ocupa toda la altura del contenedor. -->
+                                    <div class="card h-100">
+                                        <!-- Cuerpo de la tarjeta con contenido centrado verticalmente. -->
+                                        <div class="card-body text-center d-flex flex-column justify-content-center">
+                                            <!-- Título centrado. -->
+                                            <h2 class="text-center">Top Vulnerabilidades</h2>
+                                            <!-- Contenedor flexible centrado horizontal y verticalmente para el gráfico de vulnerabilidades. -->
+                                            <div class="d-flex justify-content-center align-items-center"
+                                                style="flex-grow: 1;">
+                                                <!-- Elemento canvas para el gráfico de vulnerabilidades con dimensiones específicas. -->
+                                                <canvas id="vulnerabilitiesChart"
+                                                    style="width: 300px; height: 300px;"></canvas>
+                                            </div>
+                                            <!-- Div para la tabla, con capacidad de desplazamiento vertical y una altura del 40%. -->
+                                            <div class="table-responsive mt-3" style="height: 40%; overflow-y: scroll;">
+                                                <!-- Tabla para mostrar las vulnerabilidades. -->
+                                                <table class="table">
+                                                    <thead>
+                                                        <!-- Encabezado de la tabla con columnas para vulnerabilidad, severidad y descripción. -->
+                                                        <tr>
+                                                            <th>Vulnerabilidad</th>
+                                                            <th>Severidad</th>
+                                                            <th>Descripción</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <!-- Cuerpo de la tabla, inicialmente vacío, donde se llenarán las vulnerabilidades. -->
+                                                    <tbody id="vulnerabilitiesTable"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                        fetch('/data6')
-                                            .then(response => response.json())
-                                            .then(data => {
-                                                document.getElementById('mostVulnerableMachine').textContent = data.machine_name;
-                                            })
-                                            .catch(error => console.error('Error al cargar los datos de la máquina más vulnerable:', error));
+                                <!-- Enlace al archivo de script externo. -->
+                                <script src="../Static/js/scripts.js"></script>
 
-                                        fetch('/data7')
-                                            .then(response => response.json())
-                                            .then(data => {
-                                                document.getElementById('leastVulnerableMachine').textContent = data.machine_name;
-                                            })
-                                            .catch(error => console.error('Error al cargar los datos de la máquina menos vulnerable:', error));
-                                    });
-                                </script>
-
-
-
-
-
-
-<div class="container mt-2" style="max-width: 100%; height: 70vh; margin: auto;">
-    <div class="card h-100">
-        <div class="card-body text-center d-flex flex-column justify-content-center">
-            <h2 class="text-center">Top Vulnerabilidades</h2>
-            <div class="d-flex justify-content-center align-items-center" style="flex-grow: 1;">
-                <canvas id="vulnerabilitiesChart" style="width: 300px; height: 300px;"></canvas>
-            </div>
-            <div class="table-responsive mt-3" style="height: 40%; overflow-y: scroll;">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Vulnerabilidad</th>
-                            <th>Severidad</th>
-                            <th>Descripción</th>
-                        </tr>
-                    </thead>
-                    <tbody id="vulnerabilitiesTable"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        fetch('/top-vulnerabilities')
-            .then(response => response.json())
-            .then(data => {
-                const ctx = document.getElementById('vulnerabilitiesChart').getContext('2d');
-                const names = data.map(v => v.name);
-                const severities = data.map(v => v.severity);
-                const colors = [
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(199, 199, 199, 0.2)',
-                    'rgba(83, 102, 255, 0.2)',
-                    'rgba(40, 159, 64, 0.2)',
-                    'rgba(143, 162, 235, 0.2)'
-                ];
-                const borderColors = colors.map(color => color.replace('0.2', '1'));
-                const chart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: names,
-                        datasets: [{
-                            label: 'Severidad',
-                            data: severities,
-                            backgroundColor: colors,
-                            borderColor: borderColors,
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: false  // Desactivar la capacidad de redimensionamiento
-                    }
-                });
-
-                const tableBody = document.getElementById('vulnerabilitiesTable');
-                data.forEach(v => {
-                    const row = `<tr><td>${v.name}</td><td>${v.severity}</td><td>${v.description}</td></tr>`;
-                    tableBody.innerHTML += row;
-                });
-            })
-            .catch(error => console.error('Error al cargar los datos:', error));
-    });
-</script>
 
 </body>
 
