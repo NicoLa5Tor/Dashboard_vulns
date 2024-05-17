@@ -1,5 +1,4 @@
-from flask import Flask, render_template, jsonify, request
-import matplotlib.pyplot as plt
+from flask import Flask, render_template, jsonify
 import requests
 import json
 
@@ -7,9 +6,9 @@ import json
 app = Flask(__name__, static_folder='Static')
 
 # Ruta para servir la página principal
-@app.route('/index.html')
+@app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html')  
 
 # Función para buscar datos en la base de datos
 def search_db():
@@ -40,18 +39,86 @@ def get_data():
     return jsonify({"response": {"item": data}})
 
 # Ruta para datos de ejemplo de una gráfica
+def search3_db():
+    data = {
+        "name_db": "NicolasJuan",
+        "_id": "Info_Machines",
+        "name_collection": "Content"
+    }
+    try:
+        url = "https://mongoatlas-crxv.onrender.com/get_item"
+        response = requests.get(url, json=data, timeout=10)  # Añadir un tiempo de espera de 10 segundos
+
+        if response.status_code == 200:
+            dat = response.json()
+            print(json.dumps(dat, indent=4))  # Imprimir la respuesta completa en formato JSON con indentación
+            return dat.get('response', {}).get('item', {}).get('Top10_Machinas', {})
+        else:
+            print(f"Error: {response.status_code} - {response.text}")
+            return None
+
+    except requests.exceptions.Timeout:
+        print("La solicitud a la API ha expirado.")
+        return None
+    except requests.exceptions.RequestException as e:
+        print(f"Error al consultar la base en busca del item: {str(e)}")
+        return None
+
+def search3_db():
+    data = {
+        "name_db": "NicolasJuan",
+        "_id": "Info_Machines",
+        "name_collection": "Content"
+    }
+    try:
+        url = "https://mongoatlas-crxv.onrender.com/get_item"
+        response = requests.get(url, json=data, timeout=10)  # Añadir un tiempo de espera de 10 segundos
+
+        if response.status_code == 200:
+            dat = response.json()
+            print(json.dumps(dat, indent=4))  # Imprimir la respuesta completa en formato JSON con indentación
+            return dat.get('response', {}).get('item', {}).get('Top10_Machinas', {})
+        else:
+            print(f"Error: {response.status_code} - {response.text}")
+            return None
+
+    except requests.exceptions.Timeout:
+        print("La solicitud a la API ha expirado.")
+        return None
+    except requests.exceptions.RequestException as e:
+        print(f"Error al consultar la base en busca del item: {str(e)}")
+        return None
+
 @app.route('/data')
 def data():
+    top_machines = search3_db()
+    
+    if not top_machines:
+        return jsonify({"error": "No se encontraron los datos o ocurrió un error."}), 500
+
+    labels = []
+    critical_data = []
+    high_data = []
+    medium_data = []
+    low_data = []
+
+    for machine, vulnerabilities in top_machines.items():
+        labels.append(machine)
+        critical_data.append(vulnerabilities.get('Critical', 0))
+        high_data.append(vulnerabilities.get('High', 0))
+        medium_data.append(vulnerabilities.get('Medium', 0))
+        low_data.append(vulnerabilities.get('Low', 0))
+
     datos = {
-        'labels': ['PC 1', 'PC 2', 'PC 3', 'PC 4', 'PC 5', 'PC 6', 'PC 7', 'PC 8', 'PC 9', 'PC 10'],
+        'labels': labels,
         'datasets': [
-            {'label': 'Critical', 'data': [400, 600, 100, 300, 600, 200, 900, 1100, 200, 500], 'backgroundColor': 'rgba(0, 0, 0, 0.6)', 'borderColor': 'rgba(0, 0, 0, 1)', 'borderWidth': 1},
-            {'label': 'High', 'data': [500, 100, 200, 200, 200, 100, 100, 200, 300, 400], 'backgroundColor': 'rgba(220, 53, 69, 0.6)', 'borderColor': 'rgba(220, 53, 69, 1)', 'borderWidth': 1},
-            {'label': 'Medium', 'data': [200, 300, 100, 400, 300, 700, 400, 300, 200, 100], 'backgroundColor': 'rgba(255, 159, 64, 0.6)', 'borderColor': 'rgba(255, 159, 64, 1)', 'borderWidth': 1},
-            {'label': 'Low', 'data': [100, 400, 300, 200, 100, 400, 200, 600, 100, 200], 'backgroundColor': 'rgba(255, 193, 7, 0.6)', 'borderColor': 'rgba(255, 193, 7, 1)', 'borderWidth': 1},
-            {'label': 'Sin Catalogar', 'data': [700, 600, 500, 300, 400, 300, 300, 500, 400, 300], 'backgroundColor': 'rgba(128, 128, 128, 0.6)', 'borderColor': 'rgba(128, 128, 128, 1)', 'borderWidth': 1}
+            {'label': 'Critical', 'data': critical_data, 'backgroundColor': 'rgba(0, 0, 0, 0.6)', 'borderColor': 'rgba(0, 0, 0, 1)', 'borderWidth': 1},
+            {'label': 'High', 'data': high_data, 'backgroundColor': 'rgba(220, 53, 69, 0.6)', 'borderColor': 'rgba(220, 53, 69, 1)', 'borderWidth': 1},
+            {'label': 'Medium', 'data': medium_data, 'backgroundColor': 'rgba(255, 159, 64, 0.6)', 'borderColor': 'rgba(255, 159, 64, 1)', 'borderWidth': 1},
+            {'label': 'Low', 'data': low_data, 'backgroundColor': 'rgba(255, 193, 7, 0.6)', 'borderColor': 'rgba(255, 193, 7, 1)', 'borderWidth': 1}
         ]
     }
+    
     return jsonify(datos)
 
 # Función para buscar datos de vulnerabilidades por mes en la base de datos
@@ -130,39 +197,87 @@ def data3():
 
     return jsonify(datos)
 
-# Ruta para obtener el total de vulnerabilidades
+def search4_db():
+    data = {
+        "name_db": "NicolasJuan",
+        "_id": "Info_Machines",
+        "name_collection": "Content"
+    }
+    try:
+        url = "https://mongoatlas-crxv.onrender.com/get_item"
+        response = requests.get(url, json=data, timeout=10)  # Añadir un tiempo de espera de 10 segundos
+
+        if response.status_code == 200:
+            dat = response.json()
+            print(json.dumps(dat, indent=4))  # Imprimir la respuesta completa en formato JSON con indentación
+            item = dat.get('response', {}).get('item', {})
+            mas_vuln = item.get('Menos_Mas', {}).get('mas_vuln', None)
+            menos_vuln = item.get('Menos_Mas', {}).get('menos_vuln', None)
+            total_vulns = item.get('Total_Vulns', None)
+            return mas_vuln, menos_vuln, total_vulns
+        else:
+            print(f"Error: {response.status_code} - {response.text}")
+            return None, None, None
+
+    except requests.exceptions.Timeout:
+        print("La solicitud a la API ha expirado.")
+        return None, None, None
+    except requests.exceptions.RequestException as e:
+        print(f"Error al consultar la base en busca del item: {str(e)}")
+        return None, None, None
+
 @app.route('/data5')
 def data5():
-    return jsonify({'total_vulnerabilities': 45367})
+    _, _, total_vulns = search4_db()
+    if total_vulns is not None:
+        return jsonify({'total_vulnerabilities': total_vulns})
+    else:
+        return jsonify({"error": "No se encontraron los datos o ocurrió un error."}), 500
 
-# Ruta para obtener la máquina más vulnerable
 @app.route('/data6')
 def data6():
-    return jsonify({'machine_name': 'Jdmoo-X123'})
+    mas_vuln, _, _ = search4_db()
+    if mas_vuln is not None:
+        return jsonify({'machine_name': mas_vuln})
+    else:
+        return jsonify({"error": "No se encontraron los datos o ocurrió un error."}), 500
 
-# Ruta para obtener la máquina menos vulnerable
 @app.route('/data7')
 def data7():
-    return jsonify({'machine_name': 'LessVuln Machine01'})
+    _, menos_vuln, _ = search4_db()
+    if menos_vuln is not None:
+        return jsonify({'machine_name': menos_vuln})
+    else:
+        return jsonify({"error": "No se encontraron los datos o ocurrió un error."}), 500
 
-# Datos simulados de vulnerabilidades para ejemplo
-vulnerabilities = [
-    {"name": "CVE-2021-34527", "severity": 9.8, "description": "Vulnerability in Windows Print Spooler Components."},
-    {"name": "CVE-2021-44228", "severity": 10.0, "description": "Log4Shell vulnerability affecting Apache Log4j2."},
-    {"name": "CVE-2021-30860", "severity": 9.7, "description": "Apple iOS and macOS zero-click vulnerability."},
-    {"name": "CVE-2021-4034", "severity": 9.8, "description": "PwnKit: Local Privilege Escalation vulnerability in Polkit."},
-    {"name": "CVE-2021-21972", "severity": 9.8, "description": "Remote code execution vulnerability in VMware vSphere Client."},
-    {"name": "CVE-2021-26084", "severity": 9.8, "description": "Confluence Server Webwork OGNL injection."},
-    {"name": "CVE-2021-44228", "severity": 10.0, "description": "Remote code execution in Apache Log4j2."},
-    {"name": "CVE-2022-2184", "severity": 9.8, "description": "Critical SQL injection vulnerability."},
-    {"name": "CVE-2022-30190", "severity": 9.8, "description": "Microsoft Support Diagnostic Tool Vulnerability."},
-    {"name": "CVE-2022-22965", "severity": 9.8, "description": "Spring4Shell vulnerability in Spring Framework."}
-]
+def search2_db():
+    data = {
+        "name_db": "NicolasJuan",
+        "_id": "Top_CVE",
+        "name_collection": "Content"
+    }
+    try:
+        url = "https://mongoatlas-crxv.onrender.com/get_item"
+        response = requests.get(url=url, json=data)
+        
+        if response.status_code == 200:
+            dat = response.json()
+            return dat.get('response', {}).get('item', None)
+        else:
+            print(f"Error: {response.status_code} - {response.text}")
+            return None
 
-# Ruta para obtener las principales vulnerabilidades
-@app.route('/top-vulnerabilities')
+    except Exception as e:
+        print(f"Error al consultar la base en busca del item: {str(e)}")
+        return None
+
+@app.route('/top-vulnerabilities', methods=['GET'])
 def top_vulnerabilities():
-    return jsonify(vulnerabilities)
+    item = search2_db()
+    if item:
+        return jsonify(item)
+    else:
+        return jsonify({"error": "No se encontró el item o ocurrió un error."}), 404
 
 # Ruta para obtener detalles de un CVE específico
 @app.route('/api/cve/<cve_id>', methods=['GET'])

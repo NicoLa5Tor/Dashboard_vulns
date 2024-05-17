@@ -206,35 +206,36 @@ $(document).ready(function () {
 
   // Realizar una solicitud AJAX a la ruta "/data" y crear una gráfica de barras con los datos recibidos.
   $.getJSON("/data", function (data) {
-    // Obtener el contexto del elemento canvas con el ID "myChart".
-    var ctx = document.getElementById("myChart").getContext("2d");
-    // Crear una nueva gráfica de Chart.js.
-    var myChart = new Chart(ctx, {
-      type: "bar", // Tipo de gráfica
-      data: data, // Datos de la gráfica
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true, // La escala del eje y comienza en cero
-          },
-        },
-        plugins: {
-          legend: {
-            position: "top", // Posición de la leyenda
-            labels: {
-              padding: 20, // Espaciado entre etiquetas
-              font: {
-                size: 14, // Tamaño de fuente de las etiquetas
+      // Obtener el contexto del elemento canvas con el ID "myChart".
+      var ctx = document.getElementById("myChart").getContext("2d");
+      // Crear una nueva gráfica de Chart.js.
+      var myChart = new Chart(ctx, {
+          type: "bar", // Tipo de gráfica
+          data: data, // Datos de la gráfica
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true, // La escala del eje y comienza en cero
+                  },
               },
-            },
+              plugins: {
+                  legend: {
+                      position: "top", // Posición de la leyenda
+                      labels: {
+                          padding: 20, // Espaciado entre etiquetas
+                          font: {
+                              size: 14, // Tamaño de fuente de las etiquetas
+                          },
+                      },
+                  },
+              },
+              responsive: true, // La gráfica es responsiva
+              maintainAspectRatio: false, // Mantener la proporción de aspecto
           },
-        },
-        responsive: true, // La gráfica es responsiva
-        maintainAspectRatio: false, // Mantener la proporción de aspecto
-      },
-    });
+      });
   });
 });
+
 
 // Realizar una solicitud fetch a la ruta "/data3" y crear otra gráfica de barras con los datos recibidos.
 fetch("/data3")
@@ -498,64 +499,42 @@ $(document).ready(function () {
 document.addEventListener("DOMContentLoaded", function () {
   // Realizar una solicitud a la ruta "/data5" para obtener el total de vulnerabilidades.
   fetch("/data5")
-    .then((response) => response.json()) // Convertir la respuesta a JSON.
-    .then((data) => {
-      // Actualizar el contenido del elemento con ID "vulnerabilityCount" con el total de vulnerabilidades.
-      document.getElementById("vulnerabilityCount").textContent =
-        data.total_vulnerabilities;
-    })
-    .catch(
-      (error) =>
-        console.error("Error al cargar los datos de vulnerabilidades:", error) // Manejar errores.
-    );
+      .then((response) => response.json()) // Convertir la respuesta a JSON.
+      .then((data) => {
+          // Actualizar el contenido del elemento con ID "vulnerabilityCount" con el total de vulnerabilidades.
+          document.getElementById("vulnerabilityCount").textContent = data.total_vulnerabilities;
+      })
+      .catch((error) => console.error("Error al cargar los datos de vulnerabilidades:", error)); // Manejar errores.
 
   // Realizar una solicitud a la ruta "/data6" para obtener la máquina más vulnerable.
   fetch("/data6")
-    .then((response) => response.json()) // Convertir la respuesta a JSON.
-    .then((data) => {
-      // Actualizar el contenido del elemento con ID "mostVulnerableMachine" con el nombre de la máquina.
-      document.getElementById("mostVulnerableMachine").textContent =
-        data.machine_name;
-    })
-    .catch(
-      (error) =>
-        console.error(
-          "Error al cargar los datos de la máquina más vulnerable:",
-          error
-        ) // Manejar errores.
-    );
+      .then((response) => response.json()) // Convertir la respuesta a JSON.
+      .then((data) => {
+          // Actualizar el contenido del elemento con ID "mostVulnerableMachine" con el nombre de la máquina.
+          document.getElementById("mostVulnerableMachine").textContent = data.machine_name;
+      })
+      .catch((error) => console.error("Error al cargar los datos de la máquina más vulnerable:", error)); // Manejar errores.
 
   // Realizar una solicitud a la ruta "/data7" para obtener la máquina menos vulnerable.
   fetch("/data7")
-    .then((response) => response.json()) // Convertir la respuesta a JSON.
-    .then((data) => {
-      // Actualizar el contenido del elemento con ID "leastVulnerableMachine" con el nombre de la máquina.
-      document.getElementById("leastVulnerableMachine").textContent =
-        data.machine_name;
-    })
-    .catch(
-      (error) =>
-        console.error(
-          "Error al cargar los datos de la máquina menos vulnerable:",
-          error
-        ) // Manejar errores.
-    );
+      .then((response) => response.json()) // Convertir la respuesta a JSON.
+      .then((data) => {
+          // Actualizar el contenido del elemento con ID "leastVulnerableMachine" con el nombre de la máquina.
+          document.getElementById("leastVulnerableMachine").textContent = data.machine_name;
+      })
+      .catch((error) => console.error("Error al cargar los datos de la máquina menos vulnerable:", error)); // Manejar errores.
 });
 document.addEventListener("DOMContentLoaded", function () {
-  // Realizar una solicitud Fetch a la ruta "/top-vulnerabilities"
   fetch("/top-vulnerabilities")
-    .then((response) => response.json()) // Convertir la respuesta a JSON
+    .then((response) => response.json())
     .then((data) => {
-      // Obtener el contexto del canvas con el ID "vulnerabilitiesChart"
       const ctx = document
         .getElementById("vulnerabilitiesChart")
         .getContext("2d");
 
-      // Obtener los nombres y severidades de las vulnerabilidades desde los datos
       const names = data.map((v) => v.name);
       const severities = data.map((v) => v.severity);
 
-      // Definir colores para las secciones del gráfico
       const colors = [
         "rgba(255, 159, 64, 0.2)",
         "rgba(54, 162, 235, 0.2)",
@@ -570,7 +549,6 @@ document.addEventListener("DOMContentLoaded", function () {
       ];
       const borderColors = colors.map((color) => color.replace("0.2", "1"));
 
-      // Crear un nuevo gráfico de dona con Chart.js
       const chart = new Chart(ctx, {
         type: "doughnut",
         data: {
@@ -586,18 +564,28 @@ document.addEventListener("DOMContentLoaded", function () {
           ],
         },
         options: {
-          responsive: false, // Desactivar la capacidad de redimensionamiento
+          responsive: false,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function (tooltipItem) {
+                  return `Severidad: ${tooltipItem.raw}`;
+                },
+                afterLabel: function (tooltipItem) {
+                  return `Vulnerabilidad: ${tooltipItem.label}`;
+                },
+              },
+            },
+          },
         },
       });
 
-      // Obtener el cuerpo de la tabla con el ID "vulnerabilitiesTable"
       const tableBody = document.getElementById("vulnerabilitiesTable");
 
-      // Añadir filas a la tabla con los datos de las vulnerabilidades
       data.forEach((v) => {
         const row = `<tr><td>${v.name}</td><td>${v.severity}</td><td>${v.description}</td></tr>`;
         tableBody.innerHTML += row;
       });
     })
-    .catch((error) => console.error("Error al cargar los datos:", error)); // Manejar errores en la solicitud
+    .catch((error) => console.error("Error al cargar los datos:", error));
 });
