@@ -1,13 +1,16 @@
 from flask import Flask, render_template, jsonify
+from update_data import Update_data
 import requests
 import json
 
 # Crear una instancia de Flask
 app = Flask(__name__, static_folder='Static')
-
 # Ruta para servir la página principal
 @app.route('/')
 def index():
+    abj_update = Update_data()
+    abj_update.main_update()
+    
     return render_template('index.html')  
 
 # Función para buscar datos en la base de datos
